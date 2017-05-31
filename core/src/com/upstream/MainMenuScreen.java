@@ -4,6 +4,7 @@
 
 package com.upstream;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
@@ -26,6 +27,8 @@ public class MainMenuScreen extends ScreenAdapter {
 	Vector3 touchPoint;
 
 	public MainMenuScreen (UPstream game) {
+		System.setProperty("org.xml.sax.driver","org.xmlpull.v1.sax2.Driver");
+		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		this.game = game;
 
 		guiCam = new OrthographicCamera(320, 480);

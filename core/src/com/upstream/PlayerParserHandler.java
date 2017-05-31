@@ -3,12 +3,12 @@ package com.upstream;
 /**
  * Created by captnemo on 5/29/2017.
  */
-import java.util.ArrayList;
-import java.util.Stack;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import java.util.ArrayList;
+import java.util.Stack;
 
 public class PlayerParserHandler extends DefaultHandler
 {
@@ -83,7 +83,15 @@ public class PlayerParserHandler extends DefaultHandler
             player.setScore(Integer.parseInt(value));
         } else if ("mode".equals(currentElement())) {
             Player player = (Player) this.objectStack.peek();
-            player.setMode(Integer.parseInt(value));
+            int mode = 1;
+            if (value == "easy") {
+                mode = 1;
+            } else if (value == "medium") {
+                mode = 2;
+            } else if (value == "hard") {
+                mode = 3;
+            }
+            player.setMode(mode);
         }
     }
 
