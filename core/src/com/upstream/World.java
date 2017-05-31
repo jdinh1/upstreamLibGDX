@@ -76,7 +76,7 @@ public class World {
 				turtles.add(turtle);
 			}
 
-			if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.8f) {
+			if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.9f) {
 				Alligator alligator = new Alligator(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
 					+ Alligator.GATOR_HEIGHT + rand.nextFloat() * 2);
 				alligators.add(alligator);

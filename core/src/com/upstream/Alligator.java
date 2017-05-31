@@ -9,8 +9,8 @@ package com.upstream;
 
 
 public class Alligator extends DynamicGameObject {
-	public static final float GATOR_WIDTH = 1;
-	public static final float GATOR_HEIGHT = 0.6f;
+	public static final float GATOR_WIDTH = .75f;
+	public static final float GATOR_HEIGHT = 0.4f;
 	public static final float GATOR_VELOCITY = 3f;
 
 	float stateTime = 0;
