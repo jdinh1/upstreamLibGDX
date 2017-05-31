@@ -50,11 +50,12 @@ public class World {
 		this.flys = new ArrayList<Fly>();
 		this.listener = listener;
 		rand = new Random();
+        this.mode = Settings.difficulty();
 		generateLevel();
 
 		this.heightSoFar = 0;
 		this.score = 0;
-		this.mode = Settings.difficulty();
+
 		this.state = WORLD_STATE_RUNNING;
 	}
 
@@ -75,12 +76,24 @@ public class World {
 					+ Turtle.TURTLE_HEIGHT / 2);
 				turtles.add(turtle);
 			}
-
+            if(mode==1)
 			if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.9f) {
 				Alligator alligator = new Alligator(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
 					+ Alligator.GATOR_HEIGHT + rand.nextFloat() * 2);
 				alligators.add(alligator);
 			}
+            if(mode==2)
+                if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.8f) {
+                    Alligator alligator = new Alligator(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
+                            + Alligator.GATOR_HEIGHT + rand.nextFloat() * 2);
+                    alligators.add(alligator);
+                }
+            if(mode==3)
+                if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.7f) {
+                    Alligator alligator = new Alligator(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
+                            + Alligator.GATOR_HEIGHT + rand.nextFloat() * 2);
+                    alligators.add(alligator);
+                }
 
 			if (rand.nextFloat() > 0.6f) {
 				Fly fly = new Fly(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y + Fly.Fly_HEIGHT
