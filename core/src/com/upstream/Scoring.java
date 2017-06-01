@@ -23,13 +23,11 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
 import java.util.TimerTask;
-
 import static com.upstream.Settings.mode;
-
 
 public class Scoring {
     final static String sessionStartUrl = "http://tuturucoding.com/upstream/scoring_test.php";
-    final static String sharedSecretKey = "test1234";       // need obfuscation before shipping
+    final static String sharedSecretKey = "upstream_gxUIg8BfcXYk9b2Qikmd";       // need obfuscation before shipping
     AeSimpleSHA1 sha1Object;
     String sessionToken = "";
     String error = "";
@@ -41,82 +39,34 @@ public class Scoring {
     static java.net.CookieManager msCookieManager = new java.net.CookieManager();
     CookieManager cookieManager = new java.net.CookieManager();
     private java.util.Timer autoModeTimer = new java.util.Timer();
-    boolean passToken, gameover;
-    int gamemode;
+    boolean passToken, gameover, isHighScore;
     public Scoring() {
         // Storing cookies or else connection will reset
         CookieHandler.setDefault(cookieManager);
+
         passToken = false;
         gameover = false;
-        gamemode = mode;
-        this.autoModeTimer.schedule(new TimerTask() {
-            @Override public void run() {
-                try {
-                    url_load = new URL(sessionStartUrl);
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    conn = (HttpURLConnection) url_load.openConnection();
-                    conn.setRequestMethod("POST");
-                    conn.setDoOutput(true);
-
-                    // building POST request string
-                    String data = URLEncoder.encode("extra", "UTF-8") + "=" + URLEncoder.encode(secretHashValue, "UTF-8");
-                    data += "&" + URLEncoder.encode("mode", "UTF-8") + "=" + URLEncoder.encode(gamemode+"", "UTF-8");
-                    if (passToken) {
-                        data += "&" + URLEncoder.encode("token", "UTF-8") + "=" + URLEncoder.encode(tokenHashValue, "UTF-8");
-                    }
-                    if (gameover) {
-                        data += "&" + URLEncoder.encode("gameover", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8");
-                    }
-
-                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-                    wr.write(data);
-                    wr.flush();
-                    wr.close();
-
-                    // Read JSON as string and parse it
-                    InputStream in = new BufferedInputStream(conn.getInputStream());
-
-                    String result = getStringFromInputStream(in);
-
-                    // debug in logcat
-                    Gdx.app.debug("Json info", " - "+ result);
-
-                    JsonValue json = new JsonReader().parse(result);
-                    sessionToken = json.getString("token");
-                    String error = json.getString("err");
-                    String msg = json.getString("msg");
-                    currentScore = json.getInt("score");
-                    // Set hash of token+secretkey using new token from server
-                    try {
-                        tokenHashValue = sha1Object.SHA1(sessionToken + sharedSecretKey);
-                    } catch (NoSuchAlgorithmException e) {
-                        e.printStackTrace();
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    conn.disconnect();
-                }
-            }}, 0);
-
-        // initiate new URL object
-
-
-        // Grab new session when game starts
-        boolean passToken = false;
-        boolean gameover = false;
+        isHighScore = false;
         sha1Object = new AeSimpleSHA1();
 
+        // initiate new URL object
+        try {
+            url_load = new URL(sessionStartUrl);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Grab new session when game starts
         try {
             secretHashValue = sha1Object.SHA1(sharedSecretKey);
-            sendRequest(secretHashValue,mode,passToken,gameover);
+            this.autoModeTimer.schedule(new TimerTask() {
+                @Override public void run() {
+                    sendRequest(secretHashValue,mode,passToken,gameover,isHighScore);
+                }}, 0);
+
 
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -130,26 +80,31 @@ public class Scoring {
         // bool passToken must be true every time we update score
         gameover = false;
         passToken = true;
-        try {
-            url_load = new URL(sessionStartUrl);
+        this.autoModeTimer.schedule(new TimerTask() {
+            @Override public void run() {
+                sendRequest(secretHashValue,mode,passToken,gameover,isHighScore);
+            }}, 0);
+    }
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        sendRequest(tokenHashValue,gamemode,passToken,gameover);
+    public void sendHighScoreToServer (int gamemode){
+        // bool passToken must be true every time we update score
+        gameover = true;
+        passToken = true;
+        isHighScore = true;
+        this.autoModeTimer.schedule(new TimerTask() {
+            @Override public void run() {
+                sendRequest(secretHashValue,mode,passToken,gameover,isHighScore);
+            }}, 0);
     }
 
     public void gameOver(int gamemode) {
-        boolean gameover = true;
-        boolean passToken = true;
+        gameover = true;
+        passToken = true;
         String newToken = null;
         try {
             newToken = sha1Object.SHA1(sessionToken + sharedSecretKey);
 
-            sendRequest(newToken,gamemode,passToken,gameover);
+            sendRequest(newToken,gamemode,passToken,gameover,isHighScore);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
@@ -159,7 +114,7 @@ public class Scoring {
 
 
 
-    public void sendRequest(String secretHash, final int gamemode, final boolean passToken, final boolean gameover) {
+    public void sendRequest(String secretHash, final int gamemode, final boolean passToken, final boolean gameover, final boolean isHighScore) {
         // Request sent here
         AsyncTask task = new AsyncTask<Void>() {
             @Override
@@ -184,6 +139,9 @@ public class Scoring {
                     if (gameover) {
                         data += "&" + URLEncoder.encode("gameover", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8");
                     }
+                    if (isHighScore) {
+                        data += "&" + URLEncoder.encode("highscore", "UTF-8") + "=" + URLEncoder.encode(currentScore+"", "UTF-8");
+                    }
 
                     OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
                     wr.write(data);
@@ -196,7 +154,7 @@ public class Scoring {
                     String result = getStringFromInputStream(in);
 
                     // debug in logcat
-                    //Gdx.app.debug("Json info", " - "+ result);
+                    Gdx.app.debug("Json info", " - "+ result);
 
                     JsonValue json = new JsonReader().parse(result);
                     sessionToken = json.getString("token");

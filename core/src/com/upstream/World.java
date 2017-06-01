@@ -4,11 +4,11 @@
 
 package com.upstream;
 
+import com.badlogic.gdx.math.Vector2;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import com.badlogic.gdx.math.Vector2;
 
 public class World {
 	public interface WorldListener {
@@ -41,6 +41,7 @@ public class World {
 	public int score;
     public int mode;
 	public int state;
+	public Scoring scoring;
 
 	public World (WorldListener listener) {
 		this.frog = new Frog(5, 1);
@@ -51,6 +52,7 @@ public class World {
 		this.listener = listener;
 		rand = new Random();
         this.mode = Settings.difficulty();
+		this.scoring = new Scoring();
 		generateLevel();
 
 		this.heightSoFar = 0;
@@ -198,6 +200,7 @@ public class World {
 				len = flys.size();
 				listener.fly();
 				score += Fly.Fly_SCORE;
+				scoring.updateScore(mode);
 			}
 
 		}
@@ -224,6 +227,12 @@ public class World {
 
 	private void checkGameOver () {
 		if (heightSoFar - 7.5f > frog.position.y) {
+
+			// let server knows the game is done and retrieve the final
+			// score back from server
+			scoring.gameOver(mode);
+			score = scoring.currentScore;
+
 			state = WORLD_STATE_GAME_OVER;
 		}
 	}

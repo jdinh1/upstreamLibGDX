@@ -38,13 +38,11 @@ public class HighscoresScreen extends ScreenAdapter {
 	String [] highScores;
 	float xOffset = 0;
 	GlyphLayout glyphLayout = new GlyphLayout();
-	Scoring scoring;
 
 
 	public HighscoresScreen (final UPstream game) throws IOException {
 
 		this.game = game;
-		scoring = new Scoring();
 		guiCam = new OrthographicCamera(320, 480);
 		guiCam.position.set(320 / 2, 480 / 2, 0);
 		backBounds = new Rectangle(0, 0, 64, 64);
@@ -207,7 +205,6 @@ public class HighscoresScreen extends ScreenAdapter {
 		}
 
 		return sb.toString();
-
 	}
 
 	@Override
