@@ -19,10 +19,14 @@ android {
     }
     defaultConfig {
         applicationId "com.upstream"
-        minSdkVersion 14
+        minSdkVersion 19
         targetSdkVersion 25
     }
     productFlavors {
+    }
+    dependencies {
+        compile 'org.json:json:20160212'
+        compile 'com.googlecode.json-simple:json-simple:1.1'
     }
 }
 // called every time gradle gets executed, takes the native dependencies of

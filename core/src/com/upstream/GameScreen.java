@@ -4,7 +4,6 @@ package com.upstream;
 
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
@@ -13,6 +12,8 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.upstream.World.WorldListener;
+
+import static com.upstream.Settings.mode;
 
 public class GameScreen extends ScreenAdapter {
 	static final int GAME_READY = 0;
@@ -36,11 +37,14 @@ public class GameScreen extends ScreenAdapter {
 	String scoreString;
     boolean isScoresaved;
     String playerName;
-
+	Scoring scoring;
 	GlyphLayout glyphLayout = new GlyphLayout();
 
 	public GameScreen (UPstream game) {
 		this.game = game;
+
+		scoring = new Scoring();
+
 
 		state = GAME_READY;
         isScoresaved =false;
@@ -130,20 +134,24 @@ public class GameScreen extends ScreenAdapter {
 			world.update(deltaTime, accel);
 		}
 		if (world.score != lastScore) {
-			lastScore = world.score;
+			scoring.updateScore(mode);
+			lastScore = scoring.currentScore;
 			scoreString = "SCORE: " + lastScore;
 		}
+
 		if (world.state == World.WORLD_STATE_NEXT_LEVEL) {
 			game.setScreen(new WinScreen(game));
 		}
 		if (world.state == World.WORLD_STATE_GAME_OVER) {
 			state = GAME_OVER;
+			scoring.gameOver(mode);
 			if (lastScore >= Settings.highscores[4])
 				scoreString = "NEW HIGHSCORE: " + lastScore;
 			else
 				scoreString = "SCORE: " + lastScore;
 			Settings.addScore(lastScore);
 			Settings.save();
+
 		}
 	}
 
