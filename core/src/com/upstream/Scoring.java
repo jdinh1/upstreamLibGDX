@@ -30,7 +30,6 @@ public class Scoring {
     final static String sharedSecretKey = "upstream_gxUIg8BfcXYk9b2Qikmd";       // need obfuscation before shipping
     AeSimpleSHA1 sha1Object;
     String sessionToken = "";
-    String error = "";
     int currentScore = 0;
     String secretHashValue ="";
     String tokenHashValue ="";
@@ -67,13 +66,11 @@ public class Scoring {
                     sendRequest(secretHashValue,mode,passToken,gameover,isHighScore);
                 }}, 0);
 
-
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
     };
 
     public void updateScore (int gamemode){
@@ -111,8 +108,6 @@ public class Scoring {
             e.printStackTrace();
         }
     }
-
-
 
     public void sendRequest(String secretHash, final int gamemode, final boolean passToken, final boolean gameover, final boolean isHighScore) {
         // Request sent here

@@ -199,8 +199,9 @@ public class World {
 				flys.remove(fly);
 				len = flys.size();
 				listener.fly();
-				score += Fly.Fly_SCORE;
 				scoring.updateScore(mode);
+				//score += Fly.Fly_SCORE;
+				score += scoring.currentScore;
 			}
 
 		}

@@ -127,11 +127,11 @@ public class GameScreen extends ScreenAdapter {
 			if (Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) accel = -5f;
 			world.update(deltaTime, accel);
 		}
-		if (world.score != lastScore) {
+		//if (world.score != lastScore) {
 			// world.score is now holding the latest score from server
 			lastScore = world.score;
-			scoreString = "SCORE: " + lastScore;
-		}
+			scoreString = "SCORE: " + world.scoring.currentScore;
+		//}
 
 		if (world.state == World.WORLD_STATE_NEXT_LEVEL) {
 			game.setScreen(new WinScreen(game));
