@@ -8,6 +8,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import java.util.Random;
+
+import static com.badlogic.gdx.math.MathUtils.random;
+
 public class WorldRenderer {
 	static final float FRUSTUM_WIDTH = 10;
 	static final float FRUSTUM_HEIGHT = 15;
@@ -15,12 +19,12 @@ public class WorldRenderer {
 	OrthographicCamera cam;
 	SpriteBatch batch;
 	float drift = (float) 0.1;
-
+    public final Random rand;
 
 
 	public WorldRenderer (SpriteBatch batch, World world) {
 		this.world = world;
-
+        rand = new Random();
 		this.cam = new OrthographicCamera(FRUSTUM_WIDTH, FRUSTUM_HEIGHT);
 		this.cam.position.set(FRUSTUM_WIDTH / 2, FRUSTUM_HEIGHT / 2, 0);
 		this.batch = batch;
@@ -50,12 +54,40 @@ public class WorldRenderer {
         renderlillypads();
 		renderItems();
 		renderAlligators();
+        renderSharks();
 		renderGoldenTurtle();
         renderFrog();
 		batch.end();
 	}
 
-	private void renderFrog () {
+    private void renderSharks() {
+        int len = world.sharks.size();
+        for (int i = 0; i < len; i++) {
+            Shark shark = world.sharks.get(i);
+            if(shark.getSharkState()==shark.SHARK_FIN) {
+                TextureRegion keyFrame = Assets.sharkFin.getKeyFrame(shark.stateTime, Animation.ANIMATION_LOOPING);
+                if (rand.nextFloat() > .9 &&shark.swimcount>25)
+                   shark.setSharkState(shark.SHARK_JUMPING);
+                float side = shark.velocity.x < 0 ? -1 : 1;
+                if (side < 0)
+                    batch.draw(keyFrame, shark.position.x + 0.5f, shark.position.y - 0.5f, side * 1, 1);
+                else
+                    batch.draw(keyFrame, shark.position.x - 0.5f, shark.position.y - 0.5f, side * 1, 1);
+            }
+            else{
+                TextureRegion keyFrame = Assets.shark.getKeyFrame(shark.stateTime, Animation.ANIMATION_LOOPING);
+                float side = shark.velocity.x < 0 ? -1 : 1;
+                if (side < 0)
+                    batch.draw(keyFrame, shark.position.x + 0.5f, shark.position.y - 0.5f, side * 1, 1);
+                else
+                    batch.draw(keyFrame, shark.position.x - 0.5f, shark.position.y - 0.5f, side * 1, 1);
+                //shark.setSharkState(shark.SHARK_FIN);
+            }
+
+        }
+    }
+
+    private void renderFrog () {
 		TextureRegion keyFrame;
 		switch (world.frog.state) {
 		case Frog.FROG_STATE_FALL:

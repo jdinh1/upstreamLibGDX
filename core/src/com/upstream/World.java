@@ -22,10 +22,11 @@ public class World {
 	}
 
 	public static final float WORLD_WIDTH = 10;
-	public static final float WORLD_HEIGHT = 15 * 20;
+	public static final float WORLD_HEIGHT = 15 * 30; // changed for testing from 15*20
 	public static final int WORLD_STATE_RUNNING = 0;
 	public static final int WORLD_STATE_NEXT_LEVEL = 1;
 	public static final int WORLD_STATE_GAME_OVER = 2;
+    public static final int WORLD_END_LEVEL = 2;
 	public static final Vector2 gravity = new Vector2(0, -12);
 
 	public final Frog frog;
@@ -33,6 +34,7 @@ public class World {
 	public final List<TreeLog> treeLogs;
 	public final List<Turtle> turtles;
 	public final List<Alligator> alligators;
+    public final List<Shark> sharks;
 	public final List<Fly> flys;
 	public GoldenTurtle goldenturtle;
 	public final WorldListener listener;
@@ -42,6 +44,7 @@ public class World {
 	public int score;
     public int mode;
 	public int state;
+    public int level;
 	public Scoring scoring;
 
 	public World (WorldListener listener) {
@@ -50,6 +53,7 @@ public class World {
 		this.treeLogs = new ArrayList<TreeLog>();
 		this.turtles = new ArrayList<Turtle>();
 		this.alligators = new ArrayList<Alligator>();
+        this.sharks = new ArrayList<Shark>();
 		this.flys = new ArrayList<Fly>();
 		this.listener = listener;
 		rand = new Random();
@@ -85,12 +89,18 @@ public class World {
                         LillyPad.PLATFORM_HEIGHT / 2 + TreeLog.PLATFORM_HEIGHT / 2);
 				treeLogs.add(treeLog);
 			}
-            if(mode==1)
-			if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.9f) {
-				Alligator alligator = new Alligator(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
-					+ Alligator.GATOR_HEIGHT + rand.nextFloat() * 2);
-				alligators.add(alligator);
-			}
+            if(mode==1) {
+                if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.9f) {
+                    Alligator alligator = new Alligator(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
+                            + Alligator.GATOR_HEIGHT + rand.nextFloat() * 2);
+                    alligators.add(alligator);
+                }
+                if (y > WORLD_HEIGHT / 4 && rand.nextFloat() > 0.5f) {
+                    Shark shark = new Shark(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
+                            + Shark.SHARK_HEIGHT + rand.nextFloat() * 2);
+                    sharks.add(shark);
+                }
+            }
             if(mode==2)
                 if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.8f) {
                     Alligator alligator = new Alligator(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
@@ -121,9 +131,11 @@ public class World {
 		updateFrog(deltaTime, accelX);
 		updatePlatforms(deltaTime);
 		updateAlligators(deltaTime);
+        updateSharks(deltaTime);
 		updateFlys(deltaTime);
         updateLogs(deltaTime);
 		if (frog.state != Frog.FROG_STATE_HIT) checkCollisions();
+		checkLevelOver();
 		checkGameOver();
 	}
 
@@ -154,6 +166,14 @@ public class World {
 		}
 	}
 
+    private void updateSharks (float deltaTime) {
+        int len = sharks.size();
+        for (int i = 0; i < len; i++) {
+            Shark shark = sharks.get(i);
+            shark.update(deltaTime);
+        }
+    }
+
 	private void updateFlys (float deltaTime) {
 		int len = flys.size();
 		for (int i = 0; i < len; i++) {
@@ -172,6 +192,7 @@ public class World {
 	private void checkCollisions () {
 		checkLillypadCollisions();
 		checkAlligatorCollisions();
+        checkSharkCollisions();
 		checkItemCollisions();
 		checkGoldenTurtleCollisions();
 	}
@@ -205,7 +226,16 @@ public class World {
 			}
 		}
 	}
-
+    private void checkSharkCollisions() {
+        int len = sharks.size();
+        for (int i = 0; i < len; i++) {
+            Shark shark = sharks.get(i);
+            if (shark.bounds.overlaps(frog.bounds) && shark.getSharkState()== Shark.SHARK_JUMPING) {
+                frog.hitAlligator();
+                listener.hit();
+            }
+        }
+    }
 	private void checkItemCollisions () {
 		int len = flys.size();
         for (int i = 0; i < len; i++) {
@@ -242,12 +272,18 @@ public class World {
 
 	private void checkGoldenTurtleCollisions () {
 		if (goldenturtle.bounds.overlaps(frog.bounds)) {
+            level++;
 			state = WORLD_STATE_NEXT_LEVEL;
 		}
 	}
-
+	private void checkLevelOver () {
+		if (level < WORLD_END_LEVEL ) {
+			score = scoring.currentScore;
+			state = WORLD_STATE_RUNNING;
+		}
+	}
 	private void checkGameOver () {
-		if (heightSoFar - 7.5f > frog.position.y) {
+		if (heightSoFar - 7.5f > frog.position.y || level >= WORLD_END_LEVEL ) {
 
 			// let server knows the game is done and retrieve the final
 			// score back from server

@@ -97,9 +97,9 @@ public class Assets {
         speedBoat = new Animation(0.2f, new TextureRegion(items2, 5, 220, 100, 65), new TextureRegion(items2, 108, 220, 100, 65),
                 new TextureRegion(items2, 210, 220, 100, 65), new TextureRegion(items2, 312, 220, 100, 65));
         log = new Animation(0.2f, new TextureRegion(items2, 260, 147, 45, 60), new TextureRegion(items2, 315, 147, 45, 60) );
-        shark = new Animation(0.2f, new TextureRegion(items2, 150, 10, 40, 60), new TextureRegion(items2, 150, 50, 40, 60),
-                new TextureRegion(items2, 64, 150, 40, 60), new TextureRegion(items2, 64, 150, 40, 60));
-        sharkFin = new Animation(0.2f, new TextureRegion(items2, 260, 147, 45, 60), new TextureRegion(items2, 315, 147, 45, 60));
+        shark = new Animation(0.2f, new TextureRegion(items2, 150, 295, 70, 60),new TextureRegion(items2, 212, 286, 70, 60),
+                new TextureRegion(items2, 290, 285, 70, 60),new TextureRegion(items2, 380, 285, 70, 60)	);
+        sharkFin = new Animation(0.2f, new TextureRegion(items2, 10, 295, 65, 50), new TextureRegion(items2, 70, 295, 65, 50));
 		font = new BitmapFont(Gdx.files.internal("data/font.fnt"), Gdx.files.internal("data/font.png"), false);
 
 		music = Gdx.audio.newMusic(Gdx.files.internal("data/pond.mp3"));
