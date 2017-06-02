@@ -17,19 +17,25 @@ public class Frog extends DynamicGameObject {
 
 	int state;
 	int mode;
+	int hasRocket;
+    int isRocket;
 	float stateTime;
 
 	public Frog (float x, float y) {
 		super(x, y, FROG_WIDTH, FROG_HEIGHT);
 		state = FROG_STATE_FALL;
 		stateTime = 0;
+        hasRocket=1;
+        isRocket=0;
 	}
 
 	public void update (float deltaTime, int currentMode) {
 		velocity.add(World.gravity.x * deltaTime, World.gravity.y * deltaTime);
         if(currentMode==1) velocity.add(.0f,0.11f);
         if(currentMode==3) velocity.add(.0f,-0.02f);
-
+        if(isRocket>0){
+            velocity.add(0,.5f);
+        }
 		position.add(velocity.x * deltaTime, velocity.y * deltaTime);
 
 		bounds.x = position.x - bounds.width / 2;

@@ -31,6 +31,8 @@ public class GameScreen extends ScreenAdapter {
 	Rectangle pauseBounds;
 	Rectangle resumeBounds;
 	Rectangle quitBounds;
+    Rectangle musicBounds;
+    Rectangle rocketButtonBounds;
 	int lastScore;
 	String scoreString;
     boolean isScoresaved;
@@ -71,6 +73,8 @@ public class GameScreen extends ScreenAdapter {
 		pauseBounds = new Rectangle(320 - 64, 480 - 64, 64, 64);
 		resumeBounds = new Rectangle(160 - 96, 240, 192, 36);
 		quitBounds = new Rectangle(160 - 96, 240 - 36, 192, 36);
+        musicBounds = new Rectangle(10, 10, 50, 50);
+        rocketButtonBounds = new Rectangle(260, 10, 60, 80);
 		lastScore = 0;
         playerName ="";
 		scoreString = "SCORE: 0";
@@ -114,6 +118,28 @@ public class GameScreen extends ScreenAdapter {
                 world.setState(GAME_PAUSED);
 				return;
 			}
+            if (musicBounds.contains(touchPoint.x, touchPoint.y)) {
+                Assets.playSound(Assets.clickSound);
+                if(Assets.music.getVolume()==0){
+                    world.music=0;
+                }
+                if(world.music==1 ){
+                    world.music=0;
+                    Assets.music.setVolume(0f);
+                }
+                else {
+                    world.music=1;
+                    Assets.music.setVolume(.4f);
+                }
+                return;
+            }
+            if (rocketButtonBounds.contains(touchPoint.x, touchPoint.y)) {
+                Assets.playSound(Assets.rocketSound);
+                world.frog.isRocket=100;
+                world.frog.hasRocket--;
+                if(world.frog.hasRocket<0)world.frog.hasRocket=0;
+                return;
+            }
 		}
 		
 		ApplicationType appType = Gdx.app.getType();
@@ -220,6 +246,15 @@ public class GameScreen extends ScreenAdapter {
 	private void presentRunning () {
 		game.batcher.draw(Assets.pause, 320 - 64, 480 - 64, 64, 64);
 		Assets.font.draw(game.batcher, scoreString, 16, 480 - 20);
+		if(world.frog.hasRocket>0){
+            game.batcher.draw(Assets.rocketpack,  260, 10, 60, 80);
+        }
+        if(world.music==1){
+            game.batcher.draw(Assets.musicOn,  10, 10, 50, 50);
+        }
+        if(world.music==0 || Assets.music.getVolume()==0){
+            game.batcher.draw(Assets.musicOff,  10, 10, 50, 50);
+        }
 	}
 
 	private void presentPaused () {

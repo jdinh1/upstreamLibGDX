@@ -57,6 +57,7 @@ public class WorldRenderer {
         renderSharks();
         renderSpeedBoats();
 		renderGoldenTurtle();
+
         renderFrog();
 		batch.end();
 	}
@@ -101,6 +102,10 @@ public class WorldRenderer {
 		default:
 			keyFrame = Assets.frogHit;
 		}
+		if(world.frog.isRocket>0){
+            keyFrame = Assets.rocketFrog.getKeyFrame(world.frog.stateTime, Animation.ANIMATION_LOOPING);
+            world.frog.isRocket--;
+        }
 
 		float side = world.frog.velocity.x < 0 ? -1 : 1;
 		if (side < 0)
@@ -173,4 +178,5 @@ public class WorldRenderer {
 		GoldenTurtle goldenturtle = world.goldenturtle;
 		batch.draw(Assets.goldenturtle, goldenturtle.position.x - 1, goldenturtle.position.y - 1, 2, 2);
 	}
+
 }

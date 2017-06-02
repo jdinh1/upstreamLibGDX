@@ -22,7 +22,7 @@ public class World {
 	}
 
 	public static final float WORLD_WIDTH = 10;
-	public static final float WORLD_HEIGHT = 15 * 3 ; // changed for testing from 15*20
+	public static final float WORLD_HEIGHT = 15 * 10 ; // changed for testing from 15*20
 	public static final int WORLD_STATE_RUNNING = 0;
 	public static final int WORLD_STATE_NEXT_LEVEL = 1;
 	public static final int WORLD_STATE_GAME_OVER = 2;
@@ -37,6 +37,7 @@ public class World {
     public final List<Shark> sharks;
     public final List<SpeedBoat> boats;
 	public final List<Fly> flys;
+    public RocketPack rocketpack;
 	public GoldenTurtle goldenturtle;
 	public final WorldListener listener;
 	public final Random rand;
@@ -46,10 +47,13 @@ public class World {
     public int mode;
 	public int state;
     public int level;
+    public int music;
 	public Scoring scoring;
+
 
 	public World (WorldListener listener) {
 		this.frog = new Frog(5, 1);
+        this.music=1;
 		this.lillyPads = new ArrayList<LillyPad>();
 		this.treeLogs = new ArrayList<TreeLog>();
 		this.turtles = new ArrayList<Turtle>();
@@ -61,6 +65,7 @@ public class World {
 		rand = new Random();
         this.mode = Settings.difficulty();
 		this.scoring = new Scoring();
+
 		generateLevel();
 
 		this.heightSoFar = 0;
@@ -132,6 +137,7 @@ public class World {
 		}
 
 		goldenturtle = new GoldenTurtle(WORLD_WIDTH / 2, y);
+        rocketpack = new RocketPack(WORLD_WIDTH -(RocketPack.PACK_WIDTH+5), y);
 	}
 
 	public void update (float deltaTime, float accelX) {
@@ -204,11 +210,13 @@ public class World {
     }
 
 	private void checkCollisions () {
-		checkLillypadCollisions();
-		checkAlligatorCollisions();
-        checkSharkCollisions();
-        checkSpeedBoatCollisions();
-		checkItemCollisions();
+        if(frog.isRocket<=0) {
+            checkLillypadCollisions();
+            checkAlligatorCollisions();
+            checkSharkCollisions();
+            checkSpeedBoatCollisions();
+            checkItemCollisions();
+        }
 		checkGoldenTurtleCollisions();
 	}
 

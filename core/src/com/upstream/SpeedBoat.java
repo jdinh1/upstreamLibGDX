@@ -9,8 +9,8 @@ package com.upstream;
 
 
 public class SpeedBoat extends DynamicGameObject {
-	public static final float SPEEDBOAT_WIDTH = 1.5f;
-	public static final float SPEEDBOAT_HEIGHT = 0.5f;
+	public static final float SPEEDBOAT_WIDTH = 2.5f;
+	public static final float SPEEDBOAT_HEIGHT = 0.75f;
 	public static final float SPEEDBOAT_VELOCITY = 4f;
 
 	float stateTime = 0;

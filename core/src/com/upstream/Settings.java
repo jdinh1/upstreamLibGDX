@@ -9,6 +9,7 @@ import com.badlogic.gdx.files.FileHandle;
 
 public class Settings {
 	public static boolean soundEnabled = true;
+
 	public static int mode =1;
 	public static int[] highscores = new int[] {100, 50, 10, 10, 10};
 	public final static String file = ".upstream";

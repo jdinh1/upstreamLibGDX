@@ -25,6 +25,8 @@ public class Assets {
 	public static TextureRegion logo;
 	public static TextureRegion soundOn;
 	public static TextureRegion soundOff;
+    public static TextureRegion musicOn;
+    public static TextureRegion musicOff;
 	public static TextureRegion arrow;
 	public static TextureRegion pause;
 	public static TextureRegion turtle;
@@ -55,6 +57,7 @@ public class Assets {
 	public static Sound hitSound;
 	public static Sound flySound;
 	public static Sound clickSound;
+    public static Sound rocketSound;
 
 	public static Texture loadTexture (String file) {
 		return new Texture(Gdx.files.internal(file));
@@ -73,7 +76,9 @@ public class Assets {
 		highScoresRegion = new TextureRegion(Assets.items, 0, 257, 300, 110 / 3);
 		logo = new TextureRegion(items, 0, 352, 274, 142);
 		soundOff = new TextureRegion(items, 0, 0, 64, 64);
-		soundOn = new TextureRegion(items, 64, 0, 64, 64);
+        soundOn = new TextureRegion(items, 64, 0, 64, 64);
+        musicOff = new TextureRegion(items, 300, 280, 50, 50);
+        musicOn = new TextureRegion(items, 300, 327, 50, 50);
 		arrow = new TextureRegion(items, 0, 64, 64, 64);
 		pause = new TextureRegion(items, 64, 64, 64, 64);
 		turtle = new TextureRegion(items, 128, 0, 32, 32);
@@ -81,7 +86,7 @@ public class Assets {
 		hard = new TextureRegion(items, 365, 415, 120, 40);
 		easy = new TextureRegion(items, 365, 335, 120, 40);
 		medium = new TextureRegion(items, 365, 375, 120, 40);
-        rocketpack = new TextureRegion(items2, 145,200,50,70);
+        rocketpack = new TextureRegion(items2, 205,150,50,65);
 
 		flyAnim = new Animation(0.2f, new TextureRegion(items, 128, 32, 32, 32), new TextureRegion(items, 160, 32, 32, 32),
 			new TextureRegion(items, 192, 32, 32, 32), new TextureRegion(items, 160, 32, 32, 32));
@@ -92,8 +97,8 @@ public class Assets {
 		lillyPad = new TextureRegion(items, 64, 160, 64, 16);
 		sinkingLillypad = new Animation(0.2f, new TextureRegion(items, 64, 160, 64, 16), new TextureRegion(items, 64, 176, 64, 16),
 			new TextureRegion(items, 64, 192, 64, 16), new TextureRegion(items, 64, 208, 64, 16));
-        rocketFrog = new Animation(0.2f, new TextureRegion(items2, 150, 10, 40, 60), new TextureRegion(items2, 150, 50, 40, 60),
-                new TextureRegion(items2, 5, 220, 40, 60), new TextureRegion(items2, 64, 150, 40, 60));
+        rocketFrog = new Animation(0.2f, new TextureRegion(items2, 8, 154, 40, 60), new TextureRegion(items2, 60, 153, 40, 60),
+                new TextureRegion(items2, 113, 152, 40, 60), new TextureRegion(items2, 159, 154, 40, 60));
         speedBoat = new Animation(1/3f, new TextureRegion(items2, 2, 220, 106, 70), new TextureRegion(items2, 109, 220, 106, 70),
                 new TextureRegion(items2, 215, 220, 106, 70));
         log = new Animation(0.2f, new TextureRegion(items2, 260, 147, 45, 60), new TextureRegion(items2, 315, 147, 45, 60) );
@@ -104,13 +109,14 @@ public class Assets {
 
 		music = Gdx.audio.newMusic(Gdx.files.internal("data/pond.mp3"));
 		music.setLooping(true);
-		music.setVolume(0.5f);
+		music.setVolume(0.4f);
 		if (Settings.soundEnabled) music.play();
 		jumpSound = Gdx.audio.newSound(Gdx.files.internal("data/jump.wav"));
 		highJumpSound = Gdx.audio.newSound(Gdx.files.internal("data/highjump.wav"));
 		hitSound = Gdx.audio.newSound(Gdx.files.internal("data/hit.wav"));
 		flySound = Gdx.audio.newSound(Gdx.files.internal("data/bite.wav"));
 		clickSound = Gdx.audio.newSound(Gdx.files.internal("data/tick.wav"));
+        rocketSound = Gdx.audio.newSound(Gdx.files.internal("data/rocket.wav"));
 	}
 
 	public static void playSound (Sound sound) {
