@@ -94,10 +94,10 @@ public class Assets {
 			new TextureRegion(items, 64, 192, 64, 16), new TextureRegion(items, 64, 208, 64, 16));
         rocketFrog = new Animation(0.2f, new TextureRegion(items2, 150, 10, 40, 60), new TextureRegion(items2, 150, 50, 40, 60),
                 new TextureRegion(items2, 5, 220, 40, 60), new TextureRegion(items2, 64, 150, 40, 60));
-        speedBoat = new Animation(0.2f, new TextureRegion(items2, 5, 220, 100, 65), new TextureRegion(items2, 108, 220, 100, 65),
-                new TextureRegion(items2, 210, 220, 100, 65), new TextureRegion(items2, 312, 220, 100, 65));
+        speedBoat = new Animation(1/3f, new TextureRegion(items2, 2, 220, 106, 70), new TextureRegion(items2, 109, 220, 106, 70),
+                new TextureRegion(items2, 215, 220, 106, 70));
         log = new Animation(0.2f, new TextureRegion(items2, 260, 147, 45, 60), new TextureRegion(items2, 315, 147, 45, 60) );
-        shark = new Animation(0.2f, new TextureRegion(items2, 144, 290, 66, 62),new TextureRegion(items2, 211, 284,85, 73),
+        shark = new Animation(1/4f, new TextureRegion(items2, 144, 290, 66, 62),new TextureRegion(items2, 211, 284,85, 73),
                 new TextureRegion(items2, 298, 284, 80, 72),new TextureRegion(items2, 380, 284, 70, 76)	);
         sharkFin = new Animation(0.2f, new TextureRegion(items2, 10, 295, 65, 50), new TextureRegion(items2, 70, 295, 65, 50));
 		font = new BitmapFont(Gdx.files.internal("data/font.fnt"), Gdx.files.internal("data/font.png"), false);

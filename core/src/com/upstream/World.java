@@ -35,6 +35,7 @@ public class World {
 	public final List<Turtle> turtles;
 	public final List<Alligator> alligators;
     public final List<Shark> sharks;
+    public final List<SpeedBoat> boats;
 	public final List<Fly> flys;
 	public GoldenTurtle goldenturtle;
 	public final WorldListener listener;
@@ -54,6 +55,7 @@ public class World {
 		this.turtles = new ArrayList<Turtle>();
 		this.alligators = new ArrayList<Alligator>();
         this.sharks = new ArrayList<Shark>();
+        this.boats = new ArrayList<SpeedBoat>();
 		this.flys = new ArrayList<Fly>();
 		this.listener = listener;
 		rand = new Random();
@@ -90,15 +92,20 @@ public class World {
 				treeLogs.add(treeLog);
 			}
             if(mode==1) {
-                if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.9f) {
+                if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.7f) {
                     Alligator alligator = new Alligator(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
                             + Alligator.GATOR_HEIGHT + rand.nextFloat() * 2);
                     alligators.add(alligator);
                 }
-                if (y > WORLD_HEIGHT / 4 && rand.nextFloat() > 0.5f) {
+                if (y > WORLD_HEIGHT / 4 && rand.nextFloat() > 0.7f) {
                     Shark shark = new Shark(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
                             + Shark.SHARK_HEIGHT + rand.nextFloat() * 2);
                     sharks.add(shark);
+                }
+                if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.8f) {
+                    SpeedBoat boat = new SpeedBoat(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
+                            + SpeedBoat.SPEEDBOAT_HEIGHT + rand.nextFloat() * 2);
+                    boats.add(boat);
                 }
             }
             if(mode==2)
@@ -129,9 +136,10 @@ public class World {
 
 	public void update (float deltaTime, float accelX) {
 		updateFrog(deltaTime, accelX);
-		updatePlatforms(deltaTime);
+		updateLillypadsd(deltaTime);
 		updateAlligators(deltaTime);
         updateSharks(deltaTime);
+        updateSpeedBoats(deltaTime);
 		updateFlys(deltaTime);
         updateLogs(deltaTime);
 		if (frog.state != Frog.FROG_STATE_HIT) checkCollisions();
@@ -146,7 +154,7 @@ public class World {
 		heightSoFar = Math.max(frog.position.y, heightSoFar);
 	}
 
-	private void updatePlatforms (float deltaTime) {
+	private void updateLillypadsd (float deltaTime) {
 		int len = lillyPads.size();
 		for (int i = 0; i < len; i++) {
 			LillyPad lillyPad = lillyPads.get(i);
@@ -173,7 +181,13 @@ public class World {
             shark.update(deltaTime);
         }
     }
-
+    private void updateSpeedBoats (float deltaTime) {
+        int len = boats.size();
+        for (int i = 0; i < len; i++) {
+            SpeedBoat boat = boats.get(i);
+            boat.update(deltaTime);
+        }
+    }
 	private void updateFlys (float deltaTime) {
 		int len = flys.size();
 		for (int i = 0; i < len; i++) {
@@ -193,6 +207,7 @@ public class World {
 		checkLillypadCollisions();
 		checkAlligatorCollisions();
         checkSharkCollisions();
+        checkSpeedBoatCollisions();
 		checkItemCollisions();
 		checkGoldenTurtleCollisions();
 	}
@@ -221,7 +236,7 @@ public class World {
 		for (int i = 0; i < len; i++) {
 			Alligator alligator = alligators.get(i);
 			if (alligator.bounds.overlaps(frog.bounds)) {
-				frog.hitAlligator();
+				frog.hitDie();
 				listener.hit();
 			}
 		}
@@ -231,7 +246,17 @@ public class World {
         for (int i = 0; i < len; i++) {
             Shark shark = sharks.get(i);
             if (shark.bounds.overlaps(frog.bounds) && shark.getSharkState()== Shark.SHARK_JUMPING) {
-                frog.hitAlligator();
+                frog.hitDie();
+                listener.hit();
+            }
+        }
+    }
+    private void checkSpeedBoatCollisions() {
+        int len = boats.size();
+        for (int i = 0; i < len; i++) {
+            SpeedBoat boat = boats.get(i);
+            if (boat.bounds.overlaps(frog.bounds) ) {
+                frog.hitDie();
                 listener.hit();
             }
         }

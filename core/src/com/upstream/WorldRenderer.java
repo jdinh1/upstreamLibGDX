@@ -55,6 +55,7 @@ public class WorldRenderer {
 		renderItems();
 		renderAlligators();
         renderSharks();
+        renderSpeedBoats();
 		renderGoldenTurtle();
         renderFrog();
 		batch.end();
@@ -154,6 +155,19 @@ public class WorldRenderer {
 				batch.draw(keyFrame, alligator.position.x - 0.5f, alligator.position.y - 0.5f, side * 1, 1);
 		}
 	}
+
+    private void renderSpeedBoats() {
+        int len = world.boats.size();
+        for (int i = 0; i < len; i++) {
+            SpeedBoat boat = world.boats.get(i);
+            TextureRegion keyFrame = Assets.speedBoat.getKeyFrame(boat.stateTime, Animation.ANIMATION_LOOPING);
+            float side = boat.velocity.x < 0 ? -1 : 1;
+            if (side < 0)
+                batch.draw(keyFrame, boat.position.x + 0.5f, boat.position.y - 0.5f, side * 1, 1);
+            else
+                batch.draw(keyFrame, boat.position.x - 0.5f, boat.position.y - 0.5f, side * 1, 1);
+        }
+    }
 
 	private void renderGoldenTurtle () {
 		GoldenTurtle goldenturtle = world.goldenturtle;

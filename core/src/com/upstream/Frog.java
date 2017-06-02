@@ -55,7 +55,7 @@ public class Frog extends DynamicGameObject {
 		stateTime += deltaTime;
 	}
 
-	public void hitAlligator() {
+	public void hitDie() {
 		velocity.set(0, 0);
 		state = FROG_STATE_HIT;
 		stateTime = 0;
