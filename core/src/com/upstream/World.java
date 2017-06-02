@@ -22,7 +22,7 @@ public class World {
 	}
 
 	public static final float WORLD_WIDTH = 10;
-	public static final float WORLD_HEIGHT = 15 * 30; // changed for testing from 15*20
+	public static final float WORLD_HEIGHT = 15 * 3 ; // changed for testing from 15*20
 	public static final int WORLD_STATE_RUNNING = 0;
 	public static final int WORLD_STATE_NEXT_LEVEL = 1;
 	public static final int WORLD_STATE_GAME_OVER = 2;
