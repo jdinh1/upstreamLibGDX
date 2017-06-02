@@ -16,6 +16,7 @@ public class Assets {
 	public static TextureRegion backgroundRegion;
 
 	public static Texture items;
+    public static Texture items2;
 	public static TextureRegion mainMenu;
 	public static TextureRegion pauseMenu;
 	public static TextureRegion ready;
@@ -31,14 +32,20 @@ public class Assets {
 	public static TextureRegion easy;
 	public static TextureRegion medium;
 	public static TextureRegion hard;
+    public static TextureRegion rocketpack;
 
 	public static Animation flyAnim;
 	public static Animation frogJump;
 	public static Animation frogFall;
 	public static TextureRegion frogHit;
-	public static Animation squirrelFly;
-	public static TextureRegion platform;
-	public static Animation brakingPlatform;
+	public static Animation alligator;
+	public static TextureRegion lillyPad;
+	public static Animation sinkingLillypad;
+	public static Animation rocketFrog;
+    public static Animation log;
+    public static Animation speedBoat;
+    public static Animation shark;
+    public static Animation sharkFin;
 
 	public static BitmapFont font;
 
@@ -58,6 +65,7 @@ public class Assets {
 		backgroundRegion = new TextureRegion(background, 0, 0, 320, 480);
 
 		items = loadTexture("data/items.png");
+        items2 = loadTexture("data/items2.png");
 		mainMenu = new TextureRegion(items, 0, 224, 300, 110);
 		pauseMenu = new TextureRegion(items, 224, 128, 192, 96);
 		ready = new TextureRegion(items, 320, 224, 192, 32);
@@ -73,17 +81,25 @@ public class Assets {
 		hard = new TextureRegion(items, 365, 415, 120, 40);
 		easy = new TextureRegion(items, 365, 335, 120, 40);
 		medium = new TextureRegion(items, 365, 375, 120, 40);
+        rocketpack = new TextureRegion(items2, 145,200,50,70);
 
 		flyAnim = new Animation(0.2f, new TextureRegion(items, 128, 32, 32, 32), new TextureRegion(items, 160, 32, 32, 32),
 			new TextureRegion(items, 192, 32, 32, 32), new TextureRegion(items, 160, 32, 32, 32));
 		frogJump = new Animation(0.2f, new TextureRegion(items, 0, 128, 32, 32), new TextureRegion(items, 32, 128, 32, 32));
 		frogFall = new Animation(0.2f, new TextureRegion(items, 64, 128, 32, 32), new TextureRegion(items, 96, 128, 32, 32));
 		frogHit = new TextureRegion(items, 128, 128, 32, 32);
-		squirrelFly = new Animation(0.2f, new TextureRegion(items, 0, 160, 32, 32), new TextureRegion(items, 32, 160, 32, 32));
-		platform = new TextureRegion(items, 64, 160, 64, 16);
-		brakingPlatform = new Animation(0.2f, new TextureRegion(items, 64, 160, 64, 16), new TextureRegion(items, 64, 176, 64, 16),
+		alligator = new Animation(0.2f, new TextureRegion(items, 0, 160, 32, 32), new TextureRegion(items, 32, 160, 32, 32));
+		lillyPad = new TextureRegion(items, 64, 160, 64, 16);
+		sinkingLillypad = new Animation(0.2f, new TextureRegion(items, 64, 160, 64, 16), new TextureRegion(items, 64, 176, 64, 16),
 			new TextureRegion(items, 64, 192, 64, 16), new TextureRegion(items, 64, 208, 64, 16));
-
+        rocketFrog = new Animation(0.2f, new TextureRegion(items2, 150, 10, 40, 60), new TextureRegion(items2, 150, 50, 40, 60),
+                new TextureRegion(items2, 5, 220, 40, 60), new TextureRegion(items2, 64, 150, 40, 60));
+        speedBoat = new Animation(0.2f, new TextureRegion(items2, 5, 220, 100, 65), new TextureRegion(items2, 108, 220, 100, 65),
+                new TextureRegion(items2, 210, 220, 100, 65), new TextureRegion(items2, 312, 220, 100, 65));
+        log = new Animation(0.2f, new TextureRegion(items2, 260, 147, 45, 60), new TextureRegion(items2, 315, 147, 45, 60) );
+        shark = new Animation(0.2f, new TextureRegion(items2, 150, 10, 40, 60), new TextureRegion(items2, 150, 50, 40, 60),
+                new TextureRegion(items2, 64, 150, 40, 60), new TextureRegion(items2, 64, 150, 40, 60));
+        sharkFin = new Animation(0.2f, new TextureRegion(items2, 260, 147, 45, 60), new TextureRegion(items2, 315, 147, 45, 60));
 		font = new BitmapFont(Gdx.files.internal("data/font.fnt"), Gdx.files.internal("data/font.png"), false);
 
 		music = Gdx.audio.newMusic(Gdx.files.internal("data/pond.mp3"));

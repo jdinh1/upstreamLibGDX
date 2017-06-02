@@ -14,7 +14,7 @@ public class Player {
         return Name;
     }
 
-    public void setName(String firstName) {
+    public void setName(String Name) {
         this.Name = Name;
     }
 

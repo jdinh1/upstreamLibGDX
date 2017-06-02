@@ -47,11 +47,11 @@ public class WorldRenderer {
 	public void renderObjects () {
 		batch.enableBlending();
 		batch.begin();
-		renderFrog();
-		renderPlatforms();
+        renderlillypads();
 		renderItems();
 		renderAlligators();
 		renderGoldenTurtle();
+        renderFrog();
 		batch.end();
 	}
 
@@ -76,13 +76,13 @@ public class WorldRenderer {
 			batch.draw(keyFrame, world.frog.position.x - 0.5f, world.frog.position.y - 0.5f, side * 1, 1);
 	}
 
-	private void renderPlatforms () {
+	private void renderlillypads () {
 		int len = world.lillyPads.size();
 		for (int i = 0; i < len; i++) {
 			LillyPad lillyPad = world.lillyPads.get(i);
-			TextureRegion keyFrame = Assets.platform;
+			TextureRegion keyFrame = Assets.lillyPad;
 			if (lillyPad.state == LillyPad.PLATFORM_STATE_PULVERIZING) {
-				keyFrame = Assets.brakingPlatform.getKeyFrame(lillyPad.stateTime, Animation.ANIMATION_NONLOOPING);
+				keyFrame = Assets.sinkingLillypad.getKeyFrame(lillyPad.stateTime, Animation.ANIMATION_NONLOOPING);
 			}
 
 			batch.draw(keyFrame, lillyPad.position.x - 1, lillyPad.position.y - 0.25f, 2, 0.5f);
@@ -102,13 +102,19 @@ public class WorldRenderer {
 			TextureRegion keyFrame = Assets.flyAnim.getKeyFrame(fly.stateTime, Animation.ANIMATION_LOOPING);
 			batch.draw(keyFrame, fly.position.x - 0.5f, fly.position.y - 0.5f, 1, 1);
 		}
+		len = world.treeLogs.size();
+		for (int i = 0; i < len; i++) {
+			TreeLog treeLog = world.treeLogs.get(i);
+			TextureRegion keyFrame = Assets.log.getKeyFrame(treeLog.stateTime, Animation.ANIMATION_LOOPING);
+			batch.draw(keyFrame, treeLog.position.x - 0.5f, treeLog.position.y - 0.5f, 1, 1);
+		}
 	}
 
 	private void renderAlligators() {
 		int len = world.alligators.size();
 		for (int i = 0; i < len; i++) {
 			Alligator alligator = world.alligators.get(i);
-			TextureRegion keyFrame = Assets.squirrelFly.getKeyFrame(alligator.stateTime, Animation.ANIMATION_LOOPING);
+			TextureRegion keyFrame = Assets.alligator.getKeyFrame(alligator.stateTime, Animation.ANIMATION_LOOPING);
 			float side = alligator.velocity.x < 0 ? -1 : 1;
 			if (side < 0)
 				batch.draw(keyFrame, alligator.position.x + 0.5f, alligator.position.y - 0.5f, side * 1, 1);

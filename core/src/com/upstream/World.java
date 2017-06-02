@@ -30,6 +30,7 @@ public class World {
 
 	public final Frog frog;
 	public final List<LillyPad> lillyPads;
+	public final List<TreeLog> treeLogs;
 	public final List<Turtle> turtles;
 	public final List<Alligator> alligators;
 	public final List<Fly> flys;
@@ -46,6 +47,7 @@ public class World {
 	public World (WorldListener listener) {
 		this.frog = new Frog(5, 1);
 		this.lillyPads = new ArrayList<LillyPad>();
+		this.treeLogs = new ArrayList<TreeLog>();
 		this.turtles = new ArrayList<Turtle>();
 		this.alligators = new ArrayList<Alligator>();
 		this.flys = new ArrayList<Fly>();
@@ -77,6 +79,11 @@ public class World {
 				Turtle turtle = new Turtle(lillyPad.position.x, lillyPad.position.y + LillyPad.PLATFORM_HEIGHT / 2
 					+ Turtle.TURTLE_HEIGHT / 2);
 				turtles.add(turtle);
+			}
+			if (rand.nextFloat() > 0.7f && type != LillyPad.PLATFORM_TYPE_MOVING) {
+				TreeLog treeLog = new TreeLog(lillyPad.position.x+(rand.nextFloat()*10), lillyPad.position.y +
+                        LillyPad.PLATFORM_HEIGHT / 2 + TreeLog.PLATFORM_HEIGHT / 2);
+				treeLogs.add(treeLog);
 			}
             if(mode==1)
 			if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.9f) {
@@ -115,6 +122,7 @@ public class World {
 		updatePlatforms(deltaTime);
 		updateAlligators(deltaTime);
 		updateFlys(deltaTime);
+        updateLogs(deltaTime);
 		if (frog.state != Frog.FROG_STATE_HIT) checkCollisions();
 		checkGameOver();
 	}
@@ -153,6 +161,13 @@ public class World {
 			fly.update(deltaTime);
 		}
 	}
+    private void updateLogs (float deltaTime) {
+        int len = treeLogs.size();
+        for (int i = 0; i < len; i++) {
+            TreeLog log = treeLogs.get(i);
+            log.update(deltaTime);
+        }
+    }
 
 	private void checkCollisions () {
 		checkLillypadCollisions();
@@ -193,19 +208,24 @@ public class World {
 
 	private void checkItemCollisions () {
 		int len = flys.size();
-		for (int i = 0; i < len; i++) {
-			Fly fly = flys.get(i);
-			if (frog.bounds.overlaps(fly.bounds)) {
-				flys.remove(fly);
-				len = flys.size();
-				listener.fly();
-				scoring.updateScore(mode);
-				//score += Fly.Fly_SCORE;
-				score += scoring.currentScore;
-			}
-
-		}
-
+        for (int i = 0; i < len; i++) {
+            Fly fly = flys.get(i);
+            if (frog.bounds.overlaps(fly.bounds)) {
+                flys.remove(fly);
+                len = flys.size();
+                listener.fly();
+                score += Fly.Fly_SCORE;
+            }
+        }
+         len = treeLogs.size();
+        for (int i = 0; i < len; i++) {
+            TreeLog treeLog = treeLogs.get(i);
+            if (frog.bounds.overlaps(treeLog.bounds)) {
+                frog.hitLillypad();
+                listener.jump();
+                score += TreeLog.LOG_SCORE;
+            }
+        }
 		if (frog.velocity.y > 0) return;
 
 		len = turtles.size();

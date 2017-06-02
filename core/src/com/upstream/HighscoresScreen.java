@@ -51,7 +51,7 @@ public class HighscoresScreen extends ScreenAdapter {
 		tempHighScores = new ArrayList<String>();
 		tempNames = new ArrayList<String>();
 		tempModes = new ArrayList<Integer>();
-        String url="http://chilembwe.com/upstream/highscore.xml";
+        String url="http://chilembwe.com/upstream/androidHS.xml";
         final PlayerXMLparser players = new PlayerXMLparser();
 
         URL url_load = new URL(url);
