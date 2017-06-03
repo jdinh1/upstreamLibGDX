@@ -381,9 +381,10 @@ public class World {
 
 			// let server knows the game is done and retrieve the final
 			// score back from server
-			scoring.gameOver(mode);
-			score = scoring.currentScore;
-
+			if (isNetworkAvailable) {
+				scoring.gameOver(mode);
+				score = scoring.currentScore;
+			}
 			state = WORLD_STATE_GAME_OVER;
 		}
 	}
