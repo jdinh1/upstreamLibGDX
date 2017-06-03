@@ -69,18 +69,18 @@ public class Assets {
 
 		items = loadTexture("data/items.png");
         items2 = loadTexture("data/items2.png");
-		mainMenu = new TextureRegion(items, 0, 224, 300, 110);
-		pauseMenu = new TextureRegion(items, 224, 128, 192, 96);
+		mainMenu = new TextureRegion(items, 0, 224, 280, 110);
+		pauseMenu = new TextureRegion(items, 229, 143, 190, 70);
 		ready = new TextureRegion(items, 320, 224, 192, 32);
 		gameOver = new TextureRegion(items, 352, 255, 160, 80);
-		highScoresRegion = new TextureRegion(Assets.items, 0, 257, 300, 110 / 3);
+		highScoresRegion = new TextureRegion(Assets.items, 10, 265, 280, 35);
 		logo = new TextureRegion(items, 0, 352, 274, 142);
 		soundOff = new TextureRegion(items, 0, 0, 64, 64);
         soundOn = new TextureRegion(items, 64, 0, 64, 64);
         musicOff = new TextureRegion(items, 300, 280, 50, 50);
         musicOn = new TextureRegion(items, 300, 327, 50, 50);
 		arrow = new TextureRegion(items, 0, 64, 64, 64);
-		pause = new TextureRegion(items, 64, 64, 64, 64);
+		pause = new TextureRegion(items, 79, 78, 31, 40);
 		turtle = new TextureRegion(items, 128, 0, 32, 32);
 		goldenturtle = new TextureRegion(items, 128, 64, 64, 64);
 		hard = new TextureRegion(items, 365, 415, 120, 40);

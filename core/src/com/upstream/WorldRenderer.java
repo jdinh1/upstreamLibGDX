@@ -68,7 +68,7 @@ public class WorldRenderer {
             Shark shark = world.sharks.get(i);
             if(shark.getSharkState()==shark.SHARK_FIN) {
                 TextureRegion keyFrame = Assets.sharkFin.getKeyFrame(shark.stateTime, Animation.ANIMATION_LOOPING);
-                if (rand.nextFloat() > .9 &&shark.swimcount>25)
+                if (rand.nextFloat() > .95 &&shark.swimcount>30)
                    shark.setSharkState(shark.SHARK_JUMPING);
                 float side = shark.velocity.x < 0 ? -1 : 1;
                 if (side < 0)

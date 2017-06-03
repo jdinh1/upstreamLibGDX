@@ -33,8 +33,8 @@ public class Frog extends DynamicGameObject {
 		velocity.add(World.gravity.x * deltaTime, World.gravity.y * deltaTime);
         if(currentMode==1) velocity.add(.0f,0.11f);
         if(currentMode==3) velocity.add(.0f,-0.02f);
-        if(isRocket>0){
-            velocity.add(0,.5f);
+        if(isRocket>20){
+            velocity.add(0,.2f);
         }
 		position.add(velocity.x * deltaTime, velocity.y * deltaTime);
 
