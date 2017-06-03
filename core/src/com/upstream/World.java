@@ -6,6 +6,10 @@ package com.upstream;
 
 import com.badlogic.gdx.math.Vector2;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -48,6 +52,7 @@ public class World {
 	public int state;
     public int level;
     public int music;
+    public boolean isNetworkAvailable;
 	public Scoring scoring;
 
 
@@ -64,7 +69,14 @@ public class World {
 		this.listener = listener;
 		rand = new Random();
         this.mode = Settings.difficulty();
-		this.scoring = new Scoring();
+
+        // Check to see if there's internet connection on world instantiation
+        if (netIsAvailable()) {
+            isNetworkAvailable = true;
+            this.scoring = new Scoring();
+        } else {
+            isNetworkAvailable = false;
+        }
 
 		generateLevel();
 
@@ -73,6 +85,19 @@ public class World {
 
 		this.state = WORLD_STATE_RUNNING;
 	}
+
+    private static boolean netIsAvailable() {
+        try {
+            final URL url = new URL("http://www.google.com");
+            final URLConnection conn = url.openConnection();
+            conn.connect();
+            return true;
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            return false;
+        }
+    }
 
 	private void generateLevel () {
 		float y=0;
@@ -277,7 +302,14 @@ public class World {
                 flys.remove(fly);
                 len = flys.size();
                 listener.fly();
-                score += Fly.Fly_SCORE;
+                if (this.isNetworkAvailable) {
+					score = scoring.updateScore(mode);
+
+					// debug in logcat
+					//Gdx.app.debug("Score", " - "+ score + " + " + "Fly - " + Fly.Fly_SCORE + " = " + score);
+                } else {
+					score += Fly.Fly_SCORE;
+				}
             }
         }
          len = treeLogs.size();
@@ -311,7 +343,7 @@ public class World {
 	}
 	private void checkLevelOver () {
 		if (level < WORLD_END_LEVEL ) {
-			score = scoring.currentScore;
+			//score = scoring.currentScore;
 			state = WORLD_STATE_RUNNING;
 		}
 	}

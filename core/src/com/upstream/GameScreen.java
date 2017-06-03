@@ -69,6 +69,7 @@ public class GameScreen extends ScreenAdapter {
 			}
 		};
 		world = new World(worldListener);
+
 		renderer = new WorldRenderer(game.batcher, world);
 		pauseBounds = new Rectangle(320 - 64, 480 - 64, 64, 64);
 		resumeBounds = new Rectangle(160 - 96, 240, 192, 36);
@@ -153,11 +154,11 @@ public class GameScreen extends ScreenAdapter {
 			if (Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) accel = -5f;
 			world.update(deltaTime, accel);
 		}
-		//if (world.score != lastScore) {
+		if (world.score != lastScore) {
 			// world.score is now holding the latest score from server
 			lastScore = world.score;
-			scoreString = "SCORE: " + world.scoring.currentScore;
-		//}
+			scoreString = "SCORE: " + lastScore;
+		}
 
 		if (world.state == World.WORLD_STATE_NEXT_LEVEL) {
 			game.setScreen(new WinScreen(game));

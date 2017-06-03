@@ -73,7 +73,7 @@ public class Scoring {
         }
     };
 
-    public void updateScore (int gamemode){
+    public int updateScore (int gamemode){
         // bool passToken must be true every time we update score
         gameover = false;
         passToken = true;
@@ -81,6 +81,8 @@ public class Scoring {
             @Override public void run() {
                 sendRequest(secretHashValue,mode,passToken,gameover,isHighScore);
             }}, 0);
+        return currentScore;
+
     }
 
     public void sendHighScoreToServer (int gamemode){
