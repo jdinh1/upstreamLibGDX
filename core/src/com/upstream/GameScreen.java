@@ -169,8 +169,9 @@ public class GameScreen extends ScreenAdapter {
 		if (world.state == World.WORLD_STATE_GAME_OVER) {
 			state = GAME_OVER;
 			//scoring.gameOver(mode);
+            lastScore = world.score;
 			if (lastScore >= Settings.highscores[4])
-				scoreString = "NEW HIGHSCORE: " + lastScore;
+				scoreString = "NEW HIGH SCORE: " + lastScore;
 			else
 				scoreString = "SCORE: " + lastScore;
 			Settings.addScore(lastScore);
@@ -285,6 +286,8 @@ public class GameScreen extends ScreenAdapter {
             playerName = game.playerName;
         }
 if(game.playerName!="") {
+    scoreString = game.playerName + " \n Score:" + lastScore;
+    playerName = game.playerName;
     glyphLayout.setText(Assets.font, scoreString);
     Assets.font.draw(game.batcher, scoreString, 160 - glyphLayout.width / 2, 480 - 20);
 }

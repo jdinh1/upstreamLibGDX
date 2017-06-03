@@ -385,6 +385,7 @@ public class World {
 				scoring.gameOver(mode);
 				score = scoring.currentScore;
 			}
+
 			state = WORLD_STATE_GAME_OVER;
 		}
 	}
