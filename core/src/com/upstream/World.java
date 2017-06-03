@@ -324,8 +324,8 @@ public class World {
                 len = flys.size();
                 listener.fly();
                 if (this.isNetworkAvailable) {
-					score = scoring.updateScore(mode);
-
+					score = scoring.updateScore(mode,Scoring.SCORING_FOR_FLY);
+					score = scoring.currentScore;
 					// debug in logcat
 					//Gdx.app.debug("Score", " - "+ score + " + " + "Fly - " + Fly.Fly_SCORE + " = " + score);
                 } else {
@@ -339,7 +339,15 @@ public class World {
             if (frog.bounds.overlaps(treeLog.bounds)) {
                 frog.hitLillypad();
                 listener.jump();
-                score += TreeLog.LOG_SCORE;
+				if (isNetworkAvailable) {
+					scoring.updateScore(mode,Scoring.SCORING_FOR_LOG);
+					score = scoring.currentScore;
+					// debug in logcat
+					//Gdx.app.debug("Score", " = " + score);
+				} else {
+					score += TreeLog.LOG_SCORE;
+				}
+
             }
         }
 		if (frog.velocity.y > 0) return;
