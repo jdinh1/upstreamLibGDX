@@ -26,7 +26,7 @@ public class World {
 	}
 
 	public static final float WORLD_WIDTH = 10;
-	public static final float WORLD_HEIGHT = 15 * 10 ; // changed for testing from 15*20
+	public static final float WORLD_HEIGHT = 15 * 30 ; // changed for testing from 15*20
 	public static final int WORLD_STATE_RUNNING = 0;
 	public static final int WORLD_STATE_NEXT_LEVEL = 1;
 	public static final int WORLD_STATE_GAME_OVER = 2;
@@ -122,35 +122,56 @@ public class World {
 				treeLogs.add(treeLog);
 			}
             if(mode==1) {
-                if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.7f) {
+                if (y > WORLD_HEIGHT / 4 && rand.nextFloat() > 0.8f) {
                     Alligator alligator = new Alligator(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
                             + Alligator.GATOR_HEIGHT + rand.nextFloat() * 2);
                     alligators.add(alligator);
                 }
-                if (y > WORLD_HEIGHT / 4 && rand.nextFloat() > 0.7f) {
+                if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.85f) {
                     Shark shark = new Shark(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
                             + Shark.SHARK_HEIGHT + rand.nextFloat() * 2);
                     sharks.add(shark);
                 }
-                if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.8f) {
+                if (y > WORLD_HEIGHT / 2 && rand.nextFloat() > 0.9f) {
                     SpeedBoat boat = new SpeedBoat(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
                             + SpeedBoat.SPEEDBOAT_HEIGHT + rand.nextFloat() * 2);
                     boats.add(boat);
                 }
             }
-            if(mode==2)
+            if(mode==2) {
                 if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.8f) {
                     Alligator alligator = new Alligator(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
                             + Alligator.GATOR_HEIGHT + rand.nextFloat() * 2);
                     alligators.add(alligator);
                 }
-            if(mode==3)
+                if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.85f) {
+                    Shark shark = new Shark(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
+                            + Shark.SHARK_HEIGHT + rand.nextFloat() * 2);
+                    sharks.add(shark);
+                }
+                if (y > WORLD_HEIGHT / 2 && rand.nextFloat() > 0.9f) {
+                    SpeedBoat boat = new SpeedBoat(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
+                            + SpeedBoat.SPEEDBOAT_HEIGHT + rand.nextFloat() * 2);
+                    boats.add(boat);
+                }
+            }
+            if(mode==3) {
                 if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.7f) {
                     Alligator alligator = new Alligator(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
                             + Alligator.GATOR_HEIGHT + rand.nextFloat() * 2);
                     alligators.add(alligator);
                 }
-
+                if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.8f) {
+                    Shark shark = new Shark(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
+                            + Shark.SHARK_HEIGHT + rand.nextFloat() * 2);
+                    sharks.add(shark);
+                }
+                if (y > WORLD_HEIGHT / 2 && rand.nextFloat() > 0.85f) {
+                    SpeedBoat boat = new SpeedBoat(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
+                            + SpeedBoat.SPEEDBOAT_HEIGHT + rand.nextFloat() * 2);
+                    boats.add(boat);
+                }
+            }
 			if (rand.nextFloat() > 0.6f) {
 				Fly fly = new Fly(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y + Fly.Fly_HEIGHT
 					+ rand.nextFloat() * 3);
@@ -162,7 +183,7 @@ public class World {
 		}
 
 		goldenturtle = new GoldenTurtle(WORLD_WIDTH / 2, y);
-        rocketpack = new RocketPack(WORLD_WIDTH -(RocketPack.PACK_WIDTH+5), y);
+
 	}
 
 	public void update (float deltaTime, float accelX) {

@@ -138,6 +138,7 @@ public class GameScreen extends ScreenAdapter {
                 Assets.playSound(Assets.rocketSound);
                 world.frog.isRocket=100;
                 world.frog.hasRocket--;
+                world.frog.velocity.x+=5;
                 if(world.frog.hasRocket<0)world.frog.hasRocket=0;
                 return;
             }
@@ -245,7 +246,7 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	private void presentRunning () {
-		game.batcher.draw(Assets.pause, 320 - 64, 480 - 64, 64, 64);
+		game.batcher.draw(Assets.pause, 320 - 64, 480 - 64, 40, 40);
 		Assets.font.draw(game.batcher, scoreString, 16, 480 - 20);
 		if(world.frog.hasRocket>0){
             game.batcher.draw(Assets.rocketpack,  260, 10, 60, 80);
