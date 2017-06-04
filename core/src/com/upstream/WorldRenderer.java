@@ -57,7 +57,7 @@ public class WorldRenderer {
         renderSharks();
         renderSpeedBoats();
 		renderGoldenTurtle();
-
+        renderPelicans();
         renderFrog();
 		batch.end();
 	}
@@ -173,7 +173,18 @@ public class WorldRenderer {
                 batch.draw(keyFrame, boat.position.x - 0.5f, boat.position.y - 0.5f, side * 1, 1);
         }
     }
-
+    private void renderPelicans() {
+        int len = world.pelicans.size();
+        for (int i = 0; i < len; i++) {
+            Pelican bird = world.pelicans.get(i);
+            TextureRegion keyFrame = Assets.pelican.getKeyFrame(bird.stateTime, Animation.ANIMATION_LOOPING);
+            float side = bird.velocity.x < 0 ? -1 : 1;
+            if (side < 0)
+                batch.draw(keyFrame, bird.position.x + 0.5f, bird.position.y - 0.5f, side * 1, 1);
+            else
+                batch.draw(keyFrame, bird.position.x - 0.5f, bird.position.y - 0.5f, side * 1, 1);
+        }
+    }
 	private void renderGoldenTurtle () {
 		GoldenTurtle goldenturtle = world.goldenturtle;
 		batch.draw(Assets.goldenturtle, goldenturtle.position.x - 1, goldenturtle.position.y - 1, 2, 2);

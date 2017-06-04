@@ -64,6 +64,9 @@ public class GameScreen extends ScreenAdapter {
 			}
 
 			@Override
+            public  void hitBird(){Assets.playSound(Assets.pelicanStrikeSound);}
+
+			@Override
 			public void fly () {
 				Assets.playSound(Assets.flySound);
 			}

@@ -48,6 +48,7 @@ public class Assets {
     public static Animation speedBoat;
     public static Animation shark;
     public static Animation sharkFin;
+    public static Animation pelican;
 
 	public static BitmapFont font;
 
@@ -58,6 +59,8 @@ public class Assets {
 	public static Sound flySound;
 	public static Sound clickSound;
     public static Sound rocketSound;
+    public static Sound pelicanStrikeSound;
+    public static Sound tickSound;
 
 	public static Texture loadTexture (String file) {
 		return new Texture(Gdx.files.internal(file));
@@ -105,6 +108,8 @@ public class Assets {
         shark = new Animation(1/4f, new TextureRegion(items2, 144, 290, 66, 62),new TextureRegion(items2, 211, 284,85, 73),
                 new TextureRegion(items2, 298, 284, 80, 72),new TextureRegion(items2, 380, 284, 70, 76)	);
         sharkFin = new Animation(0.2f, new TextureRegion(items2, 10, 295, 65, 50), new TextureRegion(items2, 70, 295, 65, 50));
+        pelican = new Animation(1/5f, new TextureRegion(items2, 19, 350, 89, 71),new TextureRegion(items2, 119, 349, 91, 74),
+                new TextureRegion(items2, 216, 353, 100, 70),new TextureRegion(items2, 305, 353, 74, 74)	);
 		font = new BitmapFont(Gdx.files.internal("data/font.fnt"), Gdx.files.internal("data/font.png"), false);
 
 		music = Gdx.audio.newMusic(Gdx.files.internal("data/pond.mp3"));
@@ -117,6 +122,8 @@ public class Assets {
 		flySound = Gdx.audio.newSound(Gdx.files.internal("data/bite.wav"));
 		clickSound = Gdx.audio.newSound(Gdx.files.internal("data/tick.wav"));
         rocketSound = Gdx.audio.newSound(Gdx.files.internal("data/rocket.wav"));
+        pelicanStrikeSound =Gdx.audio.newSound(Gdx.files.internal("data/boing.wav"));
+        tickSound = Gdx.audio.newSound(Gdx.files.internal("data/tick.wav"));
 	}
 
 	public static void playSound (Sound sound) {

@@ -13,7 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-public class HelpScreen extends ScreenAdapter {
+public class EndLevel1Screen extends ScreenAdapter {
 	UPstream game;
 
 	OrthographicCamera guiCam;
@@ -22,13 +22,13 @@ public class HelpScreen extends ScreenAdapter {
 	Texture helpImage;
 	TextureRegion helpRegion;
 
-	public HelpScreen (UPstream game) {
+	public EndLevel1Screen(UPstream game) {
 		this.game = game;
 		guiCam = new OrthographicCamera();
 		guiCam.setToOrtho(false, 320, 480);
 		nextBounds = new Rectangle(320 - 64, 0, 64, 64);
 		touchPoint = new Vector3();
-		helpImage = Assets.loadTexture("data/help1.png");
+		helpImage = Assets.loadTexture("data/lvl1.png");
 		helpRegion = new TextureRegion(helpImage, 0, 0, 320, 480);
 	}
 
@@ -38,8 +38,7 @@ public class HelpScreen extends ScreenAdapter {
 
 			if (nextBounds.contains(touchPoint.x, touchPoint.y)) {
 				Assets.playSound(Assets.clickSound);
-				//game.setScreen(new HelpScreen2(game)); commented out to test level screens
-                game.setScreen(new EndLevel1Screen(game));
+				game.setScreen(new EndLevel2Screen(game));
 			}
 		}
 	}

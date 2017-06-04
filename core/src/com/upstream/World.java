@@ -23,7 +23,9 @@ public class World {
 		public void hit ();
 
 		public void fly ();
-	}
+
+        public void hitBird();
+    }
 
 	public static final float WORLD_WIDTH = 10;
 	public static final float WORLD_HEIGHT = 15 * 30 ; // changed for testing from 15*20
@@ -41,6 +43,7 @@ public class World {
     public final List<Shark> sharks;
     public final List<SpeedBoat> boats;
 	public final List<Fly> flys;
+    public final List<Pelican> pelicans;
     public RocketPack rocketpack;
 	public GoldenTurtle goldenturtle;
 	public final WorldListener listener;
@@ -66,6 +69,7 @@ public class World {
         this.sharks = new ArrayList<Shark>();
         this.boats = new ArrayList<SpeedBoat>();
 		this.flys = new ArrayList<Fly>();
+        this.pelicans = new ArrayList<Pelican>();
 		this.listener = listener;
 		rand = new Random();
         this.mode = Settings.difficulty();
@@ -122,6 +126,7 @@ public class World {
 				treeLogs.add(treeLog);
 			}
             if(mode==1) {
+
                 if (y > WORLD_HEIGHT / 4 && rand.nextFloat() > 0.8f) {
                     Alligator alligator = new Alligator(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
                             + Alligator.GATOR_HEIGHT + rand.nextFloat() * 2);
@@ -177,6 +182,11 @@ public class World {
 					+ rand.nextFloat() * 3);
 				flys.add(fly);
 			}
+            if (rand.nextFloat() > 0.8f) {
+                Pelican pelican = new Pelican(lillyPad.position.x + rand.nextFloat()*2, lillyPad.position.y
+                        + Pelican.PELICAN_HEIGHT + rand.nextFloat() * 2);
+                pelicans.add(pelican);
+            }
 
 			y += (maxJumpHeight - 0.5f);
 			y -= rand.nextFloat() * (maxJumpHeight / 3);
@@ -192,6 +202,7 @@ public class World {
 		updateAlligators(deltaTime);
         updateSharks(deltaTime);
         updateSpeedBoats(deltaTime);
+        updatePelicans(deltaTime);
 		updateFlys(deltaTime);
         updateLogs(deltaTime);
 		if (frog.state != Frog.FROG_STATE_HIT) checkCollisions();
@@ -240,6 +251,13 @@ public class World {
             boat.update(deltaTime);
         }
     }
+    private void updatePelicans (float deltaTime) {
+        int len = pelicans.size();
+        for (int i = 0; i < len; i++) {
+            Pelican bird = pelicans.get(i);
+            bird.update(deltaTime);
+        }
+    }
 	private void updateFlys (float deltaTime) {
 		int len = flys.size();
 		for (int i = 0; i < len; i++) {
@@ -261,8 +279,10 @@ public class World {
             checkAlligatorCollisions();
             checkSharkCollisions();
             checkSpeedBoatCollisions();
+            checkPelicanCollisions();
             checkItemCollisions();
         }
+        checkPelicanCollisions();
 		checkGoldenTurtleCollisions();
 	}
 
@@ -312,6 +332,16 @@ public class World {
             if (boat.bounds.overlaps(frog.bounds) ) {
                 frog.hitDie();
                 listener.hit();
+            }
+        }
+    }
+    private void checkPelicanCollisions() {
+        int len = pelicans.size();
+        for (int i = 0; i < len; i++) {
+            Pelican bird = pelicans.get(i);
+            if (bird.bounds.overlaps(frog.bounds) ) {
+                frog.hitPelican();
+                listener.hitBird();
             }
         }
     }
