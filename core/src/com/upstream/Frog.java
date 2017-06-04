@@ -66,11 +66,19 @@ public class Frog extends DynamicGameObject {
 		state = FROG_STATE_HIT;
 		stateTime = 0;
 	}
-    public void hitPelican() {
+    public void hitPelicanBelow() {
         velocity.set(0, 0);
         state = FROG_STATE_FALL;
         velocity.y =-0.1f;
+
         position.y = position.y -0.2f;
+        stateTime = 0;
+    }
+    public void hitPelicanAbove() {
+        velocity.set(0, 0);
+        state = FROG_STATE_FALL;
+        velocity.y =-0.1f;
+        position.y = position.y +0.4f;
         stateTime = 0;
     }
 	public void hitLillypad() {

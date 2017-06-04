@@ -340,7 +340,10 @@ public class World {
         for (int i = 0; i < len; i++) {
             Pelican bird = pelicans.get(i);
             if (bird.bounds.overlaps(frog.bounds) ) {
-                frog.hitPelican();
+                if(bird.position.y<frog.position.y)
+                frog.hitPelicanAbove();
+                else
+                    frog.hitPelicanBelow();
                 listener.hitBird();
             }
         }
