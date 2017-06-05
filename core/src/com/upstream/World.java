@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -35,18 +34,18 @@ public class World {
     public static final int WORLD_END_LEVEL = 2;
 	public static final Vector2 gravity = new Vector2(0, -12);
 
-	public final Frog frog;
-	public final List<LillyPad> lillyPads;
-	public final List<TreeLog> treeLogs;
-	public final List<Turtle> turtles;
-	public final List<Alligator> alligators;
-    public final List<Shark> sharks;
-    public final List<SpeedBoat> boats;
-	public final List<Fly> flys;
-    public final List<Pelican> pelicans;
-    public RocketPack rocketpack;
+	public Frog frog;
+	public List<LillyPad> lillyPads;
+	public List<TreeLog> treeLogs;
+	public List<Turtle> turtles;
+	public List<Alligator> alligators;
+    public List<Shark> sharks;
+    public List<SpeedBoat> boats;
+	public List<Fly> flys;
+    public List<Pelican> pelicans;
 	public GoldenTurtle goldenturtle;
 	public final WorldListener listener;
+    public RocketPack rocketpack;
 	public final Random rand;
 
 	public float heightSoFar;
@@ -57,22 +56,32 @@ public class World {
     public int music;
     public boolean isNetworkAvailable;
 	public Scoring scoring;
+    Level2 level_2;
+    Class levelClass;
+    Object levelObj;
+    LevelHolder levelholder;
 
 
-	public World (WorldListener listener) {
-		this.frog = new Frog(5, 1);
-        this.music=1;
-		this.lillyPads = new ArrayList<LillyPad>();
-		this.treeLogs = new ArrayList<TreeLog>();
-		this.turtles = new ArrayList<Turtle>();
-		this.alligators = new ArrayList<Alligator>();
-        this.sharks = new ArrayList<Shark>();
-        this.boats = new ArrayList<SpeedBoat>();
-		this.flys = new ArrayList<Fly>();
-        this.pelicans = new ArrayList<Pelican>();
+	public World (WorldListener listener, int setLevel) {
+//		this.frog = new Frog(5, 1);
+//        this.music=1;
+//		this.lillyPads = new ArrayList<LillyPad>();
+//		this.treeLogs = new ArrayList<TreeLog>();
+//		this.turtles = new ArrayList<Turtle>();
+//		this.alligators = new ArrayList<Alligator>();
+//        this.sharks = new ArrayList<Shark>();
+//        this.boats = new ArrayList<SpeedBoat>();
+//		this.flys = new ArrayList<Fly>();
+//        this.pelicans = new ArrayList<Pelican>();
+        this.level = setLevel;
+        levelholder = new LevelHolder(this.level);
+        setGameAssetsFromLevel(levelholder);
+
 		this.listener = listener;
-		rand = new Random();
         this.mode = Settings.difficulty();
+
+		rand = new Random();
+
 
         // Check to see if there's internet connection on world instantiation
         if (netIsAvailable()) {
@@ -82,13 +91,31 @@ public class World {
             isNetworkAvailable = false;
         }
 
-		generateLevel();
 
 		this.heightSoFar = 0;
 		this.score = 0;
 
 		this.state = WORLD_STATE_RUNNING;
 	}
+
+    private void setGameAssetsFromLevel(LevelHolder levelholder) {
+        this.frog = levelholder.frog;
+        this.music = levelholder.music;
+        this.lillyPads = levelholder.lillyPads;
+        this.treeLogs = levelholder.treeLogs;
+        this.turtles = levelholder.turtles;
+        this.alligators = levelholder.alligators;
+        this.sharks = levelholder.sharks;
+        this.boats = levelholder.boats;
+        this.flys = levelholder.flys;
+        this.pelicans = levelholder.pelicans;
+        this.goldenturtle = levelholder.goldenturtle;
+    }
+
+    public void changeCurrentLevel(int level) {
+        levelholder = new LevelHolder(level);
+        setGameAssetsFromLevel(levelholder);
+    }
 
     private static boolean netIsAvailable() {
         try {
@@ -102,99 +129,6 @@ public class World {
             return false;
         }
     }
-
-	private void generateLevel () {
-		float y=0;
-        y = LillyPad.PLATFORM_HEIGHT/2;
-		float maxJumpHeight = Frog.FROG_JUMP_VELOCITY * Frog.FROG_JUMP_VELOCITY / (2 * -gravity.y);
-
-		while (y < WORLD_HEIGHT - WORLD_WIDTH / 2) {
-			int type = rand.nextFloat() > 0.8f ? LillyPad.PLATFORM_TYPE_MOVING : LillyPad.PLATFORM_TYPE_STATIC;
-			float x = rand.nextFloat() * (WORLD_WIDTH - LillyPad.PLATFORM_WIDTH) + LillyPad.PLATFORM_WIDTH / 2;
-
-			LillyPad lillyPad = new LillyPad(type, x, y);
-			lillyPads.add(lillyPad);
-
-			if (rand.nextFloat() > 0.9f && type != LillyPad.PLATFORM_TYPE_MOVING) {
-				Turtle turtle = new Turtle(lillyPad.position.x, lillyPad.position.y + LillyPad.PLATFORM_HEIGHT / 2
-					+ Turtle.TURTLE_HEIGHT / 2);
-				turtles.add(turtle);
-			}
-			if (rand.nextFloat() > 0.7f && type != LillyPad.PLATFORM_TYPE_MOVING) {
-				TreeLog treeLog = new TreeLog(lillyPad.position.x+(rand.nextFloat()*10), lillyPad.position.y +
-                        LillyPad.PLATFORM_HEIGHT / 2 + TreeLog.PLATFORM_HEIGHT / 2);
-				treeLogs.add(treeLog);
-			}
-            if(mode==1) {
-
-                if (y > WORLD_HEIGHT / 4 && rand.nextFloat() > 0.8f) {
-                    Alligator alligator = new Alligator(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
-                            + Alligator.GATOR_HEIGHT + rand.nextFloat() * 2);
-                    alligators.add(alligator);
-                }
-                if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.85f) {
-                    Shark shark = new Shark(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
-                            + Shark.SHARK_HEIGHT + rand.nextFloat() * 2);
-                    sharks.add(shark);
-                }
-                if (y > WORLD_HEIGHT / 2 && rand.nextFloat() > 0.9f) {
-                    SpeedBoat boat = new SpeedBoat(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
-                            + SpeedBoat.SPEEDBOAT_HEIGHT + rand.nextFloat() * 2);
-                    boats.add(boat);
-                }
-            }
-            if(mode==2) {
-                if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.8f) {
-                    Alligator alligator = new Alligator(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
-                            + Alligator.GATOR_HEIGHT + rand.nextFloat() * 2);
-                    alligators.add(alligator);
-                }
-                if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.85f) {
-                    Shark shark = new Shark(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
-                            + Shark.SHARK_HEIGHT + rand.nextFloat() * 2);
-                    sharks.add(shark);
-                }
-                if (y > WORLD_HEIGHT / 2 && rand.nextFloat() > 0.9f) {
-                    SpeedBoat boat = new SpeedBoat(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
-                            + SpeedBoat.SPEEDBOAT_HEIGHT + rand.nextFloat() * 2);
-                    boats.add(boat);
-                }
-            }
-            if(mode==3) {
-                if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.7f) {
-                    Alligator alligator = new Alligator(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
-                            + Alligator.GATOR_HEIGHT + rand.nextFloat() * 2);
-                    alligators.add(alligator);
-                }
-                if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.8f) {
-                    Shark shark = new Shark(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
-                            + Shark.SHARK_HEIGHT + rand.nextFloat() * 2);
-                    sharks.add(shark);
-                }
-                if (y > WORLD_HEIGHT / 2 && rand.nextFloat() > 0.85f) {
-                    SpeedBoat boat = new SpeedBoat(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
-                            + SpeedBoat.SPEEDBOAT_HEIGHT + rand.nextFloat() * 2);
-                    boats.add(boat);
-                }
-            }
-			if (rand.nextFloat() > 0.6f) {
-				Fly fly = new Fly(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y + Fly.Fly_HEIGHT
-					+ rand.nextFloat() * 3);
-				flys.add(fly);
-			}
-            if (rand.nextFloat() > 0.8f) {
-                Pelican pelican = new Pelican(lillyPad.position.x + rand.nextFloat()*2, lillyPad.position.y
-                        + Pelican.PELICAN_HEIGHT + rand.nextFloat() * 2);
-                pelicans.add(pelican);
-            }
-
-			y += (maxJumpHeight - 0.5f);
-			y -= rand.nextFloat() * (maxJumpHeight / 3);
-		}
-
-		goldenturtle = new GoldenTurtle(WORLD_WIDTH / 2, y);
-
-	}
 
 	public void update (float deltaTime, float accelX) {
 		updateFrog(deltaTime, accelX);

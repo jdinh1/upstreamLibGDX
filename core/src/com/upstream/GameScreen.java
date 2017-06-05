@@ -34,6 +34,7 @@ public class GameScreen extends ScreenAdapter {
     Rectangle musicBounds;
     Rectangle rocketButtonBounds;
 	int lastScore;
+	int currentLevel;
 	String scoreString;
     boolean isScoresaved;
     String playerName;
@@ -41,7 +42,7 @@ public class GameScreen extends ScreenAdapter {
 
 	public GameScreen (UPstream game) {
 		this.game = game;
-
+		currentLevel = 1;
 		state = GAME_READY;
         isScoresaved =false;
 		guiCam = new OrthographicCamera(320, 480);
@@ -71,7 +72,7 @@ public class GameScreen extends ScreenAdapter {
 				Assets.playSound(Assets.flySound);
 			}
 		};
-		world = new World(worldListener);
+		world = new World(worldListener, currentLevel);
 
 		renderer = new WorldRenderer(game.batcher, world);
 		pauseBounds = new Rectangle(320 - 64, 480 - 64, 64, 64);
@@ -202,8 +203,11 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	private void updateLevelEnd () {
+
 		if (Gdx.input.justTouched()) {
-			world = new World(worldListener);
+			currentLevel++;
+			game.setScreen(new EndLevel1Screen(game));
+			world = new World(worldListener, currentLevel);
 			renderer = new WorldRenderer(game.batcher, world);
 			world.score = lastScore;
 			state = GAME_READY;
@@ -211,7 +215,6 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	private void updateGameOver () {
-
 		if (Gdx.input.justTouched()) {
 			game.setScreen(new MainMenuScreen(game));
 		}
@@ -269,7 +272,6 @@ public class GameScreen extends ScreenAdapter {
 		game.batcher.draw(Assets.pauseMenu, 160 - 192 / 2, 240 - 96 / 2, 192, 96);
 		Assets.font.draw(game.batcher, scoreString, 16, 480 - 20);
 	}
-
 	private void presentLevelEnd () {
 		glyphLayout.setText(Assets.font, "the Golden turtle has");
 		Assets.font.draw(game.batcher, glyphLayout, 160 - glyphLayout.width / 2, 480 - 40);
