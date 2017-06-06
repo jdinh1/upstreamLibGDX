@@ -129,4 +129,8 @@ public class Assets {
 	public static void playSound (Sound sound) {
 		if (Settings.soundEnabled) sound.play(1);
 	}
+
+	public static void stopSound (Sound sound) {
+		if (Settings.soundEnabled) sound.stop(1);
+	}
 }

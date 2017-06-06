@@ -138,12 +138,13 @@ public class GameScreen extends ScreenAdapter {
                 }
                 return;
             }
-            if (rocketButtonBounds.contains(touchPoint.x, touchPoint.y)) {
+            if (rocketButtonBounds.contains(touchPoint.x, touchPoint.y) && world.frog.hasRocket > 0) {
                 Assets.playSound(Assets.rocketSound);
                 world.frog.isRocket=100;
                 world.frog.hasRocket--;
                 world.frog.velocity.x+=5;
-                if(world.frog.hasRocket<0)world.frog.hasRocket=0;
+                if(world.frog.hasRocket<0)
+                	world.frog.hasRocket=0;
                 return;
             }
 		}
