@@ -20,6 +20,7 @@ public class LevelHolder {
     public List<SpeedBoat> boats;
     public List<Fly> flys;
     public List<Pelican> pelicans;
+    public List<Powerup> powerups;
     public int music;
     public GoldenTurtle goldenturtle;
 
@@ -37,6 +38,7 @@ public class LevelHolder {
         this.boats = new ArrayList<SpeedBoat>();
 		this.flys = new ArrayList<Fly>();
         this.pelicans = new ArrayList<Pelican>();
+        this.powerups = new ArrayList<Powerup>();
     }
 
     public LevelHolder(int level) {
@@ -53,6 +55,7 @@ public class LevelHolder {
                 this.boats = level_1.boats;
                 this.flys = level_1.flys;
                 this.pelicans = level_1.pelicans;
+                this.powerups = level_1.powerups;
                 this.goldenturtle = level_1.goldenturtle;
                 break;
             case 2:
@@ -67,6 +70,7 @@ public class LevelHolder {
                 this.boats = level_2.boats;
                 this.flys = level_2.flys;
                 this.pelicans = level_2.pelicans;
+
                 this.goldenturtle = level_2.goldenturtle;
                 break;
             case 3:
@@ -81,6 +85,7 @@ public class LevelHolder {
                 this.boats = level_2.boats;
                 this.flys = level_2.flys;
                 this.pelicans = level_2.pelicans;
+
                 this.goldenturtle = level_2.goldenturtle;
                 break;
         }

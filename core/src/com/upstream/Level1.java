@@ -25,6 +25,8 @@ public class Level1 {
     public final List<SpeedBoat> boats;
     public final List<Fly> flys;
     public final List<Pelican> pelicans;
+    public final List<Powerup> powerups;
+
     public RocketPack rocketpack;
     public GoldenTurtle goldenturtle;
     public final Random rand;
@@ -46,6 +48,7 @@ public class Level1 {
         this.boats = new ArrayList<SpeedBoat>();
         this.flys = new ArrayList<Fly>();
         this.pelicans = new ArrayList<Pelican>();
+        this.powerups = new ArrayList<Powerup>();
 
         rand = new Random();
         this.mode = Settings.difficulty();
@@ -72,6 +75,11 @@ public class Level1 {
                 Turtle turtle = new Turtle(lillyPad.position.x, lillyPad.position.y + LillyPad.PLATFORM_HEIGHT / 2
                         + Turtle.TURTLE_HEIGHT / 2);
                 turtles.add(turtle);
+            }
+            if (rand.nextFloat() > 0.5f && type != LillyPad.PLATFORM_TYPE_MOVING) {
+                Powerup powerup = new Powerup(lillyPad.position.x, lillyPad.position.y + LillyPad.PLATFORM_HEIGHT / 2
+                        + Powerup.PU_LILYPAD_HEIGHT / 2);
+                powerups.add(powerup);
             }
             if (rand.nextFloat() > 0.7f && type != LillyPad.PLATFORM_TYPE_MOVING) {
                 TreeLog treeLog = new TreeLog(lillyPad.position.x+(rand.nextFloat()*10), lillyPad.position.y +
@@ -151,5 +159,6 @@ public class Level1 {
     public List getSharks() {return sharks;}
     public List getBoats() {return boats;}
     public List getPelicans() {return pelicans;}
+    public List getPowerUps() {return powerups;}
 
 }

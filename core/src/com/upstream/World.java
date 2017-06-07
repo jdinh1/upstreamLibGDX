@@ -43,6 +43,7 @@ public class World {
     public List<SpeedBoat> boats;
 	public List<Fly> flys;
     public List<Pelican> pelicans;
+    public List<Powerup> powerups;
 	public GoldenTurtle goldenturtle;
 	public final WorldListener listener;
     public RocketPack rocketpack;
@@ -72,7 +73,8 @@ public class World {
 //        this.sharks = new ArrayList<Shark>();
 //        this.boats = new ArrayList<SpeedBoat>();
 //		this.flys = new ArrayList<Fly>();
-//        this.pelicans = new ArrayList<Pelican>();
+//       this.pelicans = new ArrayList<Pelican>();
+ //       this.powerups = new ArrayList<Powerup>();
         this.level = setLevel;
         levelholder = new LevelHolder(this.level);
         setGameAssetsFromLevel(levelholder);
@@ -109,6 +111,7 @@ public class World {
         this.boats = levelholder.boats;
         this.flys = levelholder.flys;
         this.pelicans = levelholder.pelicans;
+        this.powerups = levelholder.powerups;
         this.goldenturtle = levelholder.goldenturtle;
     }
 
@@ -139,6 +142,7 @@ public class World {
         updatePelicans(deltaTime);
 		updateFlys(deltaTime);
         updateLogs(deltaTime);
+        updatePowerUps(deltaTime);
 		if (frog.state != Frog.FROG_STATE_HIT) checkCollisions();
 		checkLevelOver();
 		checkGameOver();
@@ -170,7 +174,13 @@ public class World {
 			alligator.update(deltaTime);
 		}
 	}
-
+    private void updatePowerUps (float deltaTime) {
+        int len = powerups.size();
+        for (int i = 0; i < len; i++) {
+            Powerup powerup = powerups.get(i);
+            powerup.update(deltaTime);
+        }
+    }
     private void updateSharks (float deltaTime) {
         int len = sharks.size();
         for (int i = 0; i < len; i++) {

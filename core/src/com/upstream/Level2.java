@@ -27,6 +27,7 @@ public class Level2 {
     public final List<Pelican> pelicans;
     public RocketPack rocketpack;
     public GoldenTurtle goldenturtle;
+
     public final Random rand;
 
     public float heightSoFar;

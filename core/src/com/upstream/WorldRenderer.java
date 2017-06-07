@@ -53,7 +53,8 @@ public class WorldRenderer {
 		batch.begin();
         renderlillypads();
 		renderItems();
-		renderAlligators();
+        renderPowerups();
+        renderAlligators();
         renderSharks();
         renderSpeedBoats();
 		renderGoldenTurtle();
@@ -127,6 +128,14 @@ public class WorldRenderer {
 		}
 	}
 
+	private void renderPowerups(){
+        int len = world.powerups.size();
+        for (int i = 0; i < len; i++) {
+            Powerup powerup = world.powerups.get(i);
+            TextureRegion keyFrame = Assets.powerUp.getKeyFrame(powerup.stateTime, Animation.ANIMATION_LOOPING);
+            batch.draw(keyFrame, powerup.position.x - 0.5f, powerup.position.y - 0.5f, 1, 1);
+        }
+    }
 	private void renderItems () {
 		int len = world.turtles.size();
 		for (int i = 0; i < len; i++) {
