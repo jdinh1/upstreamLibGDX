@@ -38,7 +38,9 @@ public class Assets {
 
 	public static Animation flyAnim;
 	public static Animation frogJump;
+    public static Animation frogJumpPowerUp;
 	public static Animation frogFall;
+    public static Animation frogFallPowerUp;
 	public static TextureRegion frogHit;
 	public static Animation alligator;
 	public static TextureRegion lillyPad;
@@ -94,8 +96,16 @@ public class Assets {
 
 		flyAnim = new Animation(0.2f, new TextureRegion(items, 128, 32, 32, 32), new TextureRegion(items, 160, 32, 32, 32),
 			new TextureRegion(items, 192, 32, 32, 32), new TextureRegion(items, 160, 32, 32, 32));
-		frogJump = new Animation(0.2f, new TextureRegion(items, 0, 128, 32, 32), new TextureRegion(items, 32, 128, 32, 32));
+
+        frogJump = new Animation(0.2f, new TextureRegion(items,  0,128, 32, 32), new TextureRegion(items, 32, 128, 32, 32));
+        frogJumpPowerUp = new Animation(0.3f, new TextureRegion(items2, 17, 415, 60, 60),
+                new TextureRegion(items2, 83, 413, 57, 61),new TextureRegion(items2, 141, 413, 56, 61)
+                ,new TextureRegion(items2, 205, 413, 51, 61) );
+
 		frogFall = new Animation(0.2f, new TextureRegion(items, 64, 128, 32, 32), new TextureRegion(items, 96, 128, 32, 32));
+        frogFallPowerUp = new Animation(0.3f, new TextureRegion(items2, 263, 416, 43, 59),
+                new TextureRegion(items2, 311, 416, 49, 56), new TextureRegion(items2, 364, 414, 46, 471));
+
 		frogHit = new TextureRegion(items, 128, 128, 32, 32);
 		alligator = new Animation(0.2f, new TextureRegion(items, 0, 160, 32, 32), new TextureRegion(items, 32, 160, 32, 32));
 		lillyPad = new TextureRegion(items, 64, 160, 64, 16);
@@ -104,7 +114,7 @@ public class Assets {
         rocketFrog = new Animation(0.2f, new TextureRegion(items2, 8, 154, 40, 60), new TextureRegion(items2, 60, 153, 40, 60),
                 new TextureRegion(items2, 113, 152, 40, 60), new TextureRegion(items2, 159, 154, 40, 60));
         speedBoat = new Animation(1/3f, new TextureRegion(items2, 2, 220, 106, 70), new TextureRegion(items2, 109, 220, 106, 70),
-                new TextureRegion(items2, 215, 220, 106, 70));
+                new TextureRegion(items2, 215, 219, 106, 70));
         log = new Animation(0.2f, new TextureRegion(items2, 260, 147, 45, 60), new TextureRegion(items2, 315, 147, 45, 60) );
         shark = new Animation(1/3f, new TextureRegion(items2, 144, 290, 66, 62),new TextureRegion(items2, 211, 284,85, 73),
                 new TextureRegion(items2, 298, 284, 80, 72),new TextureRegion(items2, 380, 284, 70, 76)	);

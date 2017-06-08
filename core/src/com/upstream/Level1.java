@@ -76,9 +76,9 @@ public class Level1 {
                         + Turtle.TURTLE_HEIGHT / 2);
                 turtles.add(turtle);
             }
-            if (rand.nextFloat() > 0.5f && type != LillyPad.PLATFORM_TYPE_MOVING) {
-                Powerup powerup = new Powerup(lillyPad.position.x, lillyPad.position.y + LillyPad.PLATFORM_HEIGHT / 2
-                        + Powerup.PU_LILYPAD_HEIGHT / 2);
+            if (rand.nextFloat() > 0.9f && type != LillyPad.PLATFORM_TYPE_MOVING) {
+                Powerup powerup = new Powerup(lillyPad.position.x, lillyPad.position.y );
+                // + LillyPad.PLATFORM_HEIGHT / 2 + Powerup.PU_LILYPAD_HEIGHT / 2);
                 powerups.add(powerup);
             }
             if (rand.nextFloat() > 0.7f && type != LillyPad.PLATFORM_TYPE_MOVING) {

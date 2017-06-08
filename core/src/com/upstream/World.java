@@ -220,10 +220,11 @@ public class World {
 	private void checkCollisions () {
         if(frog.isRocket<=0) {
             checkLillypadCollisions();
-            checkAlligatorCollisions();
-            checkSharkCollisions();
-            checkSpeedBoatCollisions();
-            checkPelicanCollisions();
+            if(frog.isInvincible==0) {
+                checkAlligatorCollisions();
+                checkSharkCollisions();
+                checkSpeedBoatCollisions();
+            }
             checkItemCollisions();
         }
         checkIfFrogPassedGoldenTurtle();
@@ -309,6 +310,15 @@ public class World {
                 } else {
 					score += Fly.Fly_SCORE;
 				}
+            }
+        }
+        len = powerups.size();
+        for (int i = 0; i < len; i++) {
+            Powerup powerup = powerups.get(i);
+            if (frog.bounds.overlaps(powerup.bounds)) {
+                powerups.remove(powerup);
+                len = powerups.size();
+                frog.powerUp();
             }
         }
          len = treeLogs.size();

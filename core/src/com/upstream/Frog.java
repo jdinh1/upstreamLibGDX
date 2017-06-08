@@ -10,6 +10,7 @@ public class Frog extends DynamicGameObject {
 	public static final int FROG_STATE_JUMP = 0;
 	public static final int FROG_STATE_FALL = 1;
 	public static final int FROG_STATE_HIT = 2;
+
 	public static final float FROG_JUMP_VELOCITY = 11;
 	public static final float FROG_MOVE_VELOCITY = 20;
 	public static final float FROG_WIDTH = 0.8f;
@@ -19,6 +20,7 @@ public class Frog extends DynamicGameObject {
 	int mode;
 	int hasRocket;
     int isRocket;
+    int isInvincible;
 	float stateTime;
 
 	public Frog (float x, float y) {
@@ -27,6 +29,7 @@ public class Frog extends DynamicGameObject {
 		stateTime = 0;
         hasRocket=1;
         isRocket=0;
+        isInvincible=0;
 	}
 
 	public void update (float deltaTime, int currentMode) {
@@ -66,6 +69,10 @@ public class Frog extends DynamicGameObject {
 		state = FROG_STATE_HIT;
 		stateTime = 0;
 	}
+	public void powerUp(){
+        isInvincible=1;
+        stateTime = 0;
+    }
     public void hitPelicanBelow() {
         velocity.set(0, 0);
         state = FROG_STATE_FALL;

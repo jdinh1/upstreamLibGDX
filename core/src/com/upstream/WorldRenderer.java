@@ -94,10 +94,14 @@ public class WorldRenderer {
 		TextureRegion keyFrame;
 		switch (world.frog.state) {
 		case Frog.FROG_STATE_FALL:
-			keyFrame = Assets.frogFall.getKeyFrame(world.frog.stateTime, Animation.ANIMATION_LOOPING);
+			if(world.frog.isInvincible==0) {
+                keyFrame = Assets.frogFall.getKeyFrame(world.frog.stateTime, Animation.ANIMATION_LOOPING);
+            }else keyFrame = Assets.frogFallPowerUp.getKeyFrame(world.frog.stateTime, Animation.ANIMATION_LOOPING);
 			break;
 		case Frog.FROG_STATE_JUMP:
-			keyFrame = Assets.frogJump.getKeyFrame(world.frog.stateTime, Animation.ANIMATION_LOOPING);
+            if(world.frog.isInvincible==0) {
+                keyFrame = Assets.frogJump.getKeyFrame(world.frog.stateTime, Animation.ANIMATION_LOOPING);
+            }else keyFrame = Assets.frogJumpPowerUp.getKeyFrame(world.frog.stateTime, Animation.ANIMATION_LOOPING);
 			break;
 		case Frog.FROG_STATE_HIT:
 		default:
@@ -107,12 +111,15 @@ public class WorldRenderer {
             keyFrame = Assets.rocketFrog.getKeyFrame(world.frog.stateTime, Animation.ANIMATION_LOOPING);
             world.frog.isRocket--;
         }
-
+        float size_modifier=1f;
+        if(world.frog.isInvincible==1){
+            size_modifier=1.5f;
+        }
 		float side = world.frog.velocity.x < 0 ? -1 : 1;
 		if (side < 0)
-			batch.draw(keyFrame, world.frog.position.x + 0.5f, world.frog.position.y - 0.5f, side * 1, 1);
+			batch.draw(keyFrame, world.frog.position.x + 0.5f, world.frog.position.y - 0.5f, side * size_modifier, size_modifier);
 		else
-			batch.draw(keyFrame, world.frog.position.x - 0.5f, world.frog.position.y - 0.5f, side * 1, 1);
+			batch.draw(keyFrame, world.frog.position.x - 0.5f, world.frog.position.y - 0.5f, side * size_modifier, size_modifier);
 	}
 
 	private void renderlillypads () {
