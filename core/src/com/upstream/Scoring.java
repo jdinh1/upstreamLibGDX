@@ -59,7 +59,6 @@ public class Scoring {
         // initiate new URL object
         try {
             url_load = new URL(sessionStartUrl);
-
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {

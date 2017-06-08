@@ -226,6 +226,7 @@ public class World {
             checkPelicanCollisions();
             checkItemCollisions();
         }
+        checkIfFrogPassedGoldenTurtle();
         checkPelicanCollisions();
 		checkGoldenTurtleCollisions();
 	}
@@ -342,17 +343,26 @@ public class World {
 	}
 
 	private void checkGoldenTurtleCollisions () {
-		if (goldenturtle.bounds.overlaps(frog.bounds)) {
+        if (goldenturtle.bounds.overlaps(frog.bounds)) {
             level++;
-			state = WORLD_STATE_NEXT_LEVEL;
-		}
-	}
+            state = WORLD_STATE_NEXT_LEVEL;
+        }
+    }
+
+    private void checkIfFrogPassedGoldenTurtle () {
+        if ( frog.position.y - 20 > goldenturtle.position.y) {
+            level++;
+            state = WORLD_STATE_NEXT_LEVEL;
+        }
+    }
+
 	private void checkLevelOver () {
 		if (level < WORLD_END_LEVEL ) {
 			//score = scoring.currentScore;
 			state = WORLD_STATE_RUNNING;
 		}
 	}
+
 	private void checkGameOver () {
 		if (heightSoFar - 7.5f > frog.position.y || level >= WORLD_END_LEVEL ) {
 
