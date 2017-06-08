@@ -69,8 +69,8 @@ public class WorldRenderer {
             Shark shark = world.sharks.get(i);
             if(shark.getSharkState()==shark.SHARK_FIN) {
                 TextureRegion keyFrame = Assets.sharkFin.getKeyFrame(shark.stateTime, Animation.ANIMATION_LOOPING);
-                if (rand.nextFloat() > .95 &&shark.swimcount>30)
-                   shark.setSharkState(shark.SHARK_JUMPING);
+                if (rand.nextFloat() > .95 && shark.swimcount>10)
+                   shark.sharkJump();
                 float side = shark.velocity.x < 0 ? -1 : 1;
                 if (side < 0)
                     batch.draw(keyFrame, shark.position.x + 0.5f, shark.position.y - 0.5f, side * 1, 1);
@@ -111,11 +111,13 @@ public class WorldRenderer {
             keyFrame = Assets.rocketFrog.getKeyFrame(world.frog.stateTime, Animation.ANIMATION_LOOPING);
             world.frog.isRocket--;
         }
+
+		float side = world.frog.velocity.x < 0 ? -1 : 1;
         float size_modifier=1f;
         if(world.frog.isInvincible==1){
             size_modifier=1.5f;
+            side =1f;
         }
-		float side = world.frog.velocity.x < 0 ? -1 : 1;
 		if (side < 0)
 			batch.draw(keyFrame, world.frog.position.x + 0.5f, world.frog.position.y - 0.5f, side * size_modifier, size_modifier);
 		else

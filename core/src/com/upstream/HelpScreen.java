@@ -39,7 +39,7 @@ public class HelpScreen extends ScreenAdapter {
 			if (nextBounds.contains(touchPoint.x, touchPoint.y)) {
 				Assets.playSound(Assets.clickSound);
 				//game.setScreen(new HelpScreen2(game)); commented out to test level screens
-                game.setScreen(new EndLevel1Screen(game));
+                game.setScreen(new HelpScreen2(game));
 			}
 		}
 	}

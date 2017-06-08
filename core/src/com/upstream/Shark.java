@@ -11,15 +11,15 @@ package com.upstream;
 public class Shark extends DynamicGameObject {
 	public static final float SHARK_WIDTH = 1.5f;
 	public static final float SHARK_HEIGHT = 0.5f;
-	public static final float SHARK_VELOCITY = 3f;
+	public static final float SHARK_VELOCITY = 2f;
 	public static int SHARK_FIN =1;
 	public static int SHARK_JUMPING =2;
 
 
 	float stateTime = 0;
 	int sharkState = SHARK_FIN;
-    int jumpcount=0;
-    int swimcount=0;
+    float jumpcount=0;
+    float swimcount=0;
 	public Shark(float x, float y) {
 		super(x, y, SHARK_WIDTH, SHARK_HEIGHT);
 		velocity.set(-SHARK_VELOCITY, 0);
@@ -39,16 +39,31 @@ public class Shark extends DynamicGameObject {
 			velocity.x = -SHARK_VELOCITY;
 		}
 		stateTime += deltaTime;
-	}
-	public void setSharkState(int jumping){
-        if (jumping==SHARK_JUMPING) {
-            sharkState = SHARK_JUMPING;
-            jumpcount=0;
-        }
-        if(jumping==SHARK_FIN)
-            sharkState= SHARK_FIN;
 
+        if( sharkState == SHARK_JUMPING) {
+            jumpcount += deltaTime;
+            if(jumpcount>60){
+                jumpcount=0;
+                stateTime=0;
+                sharkState=SHARK_FIN;
+            }
+        }
+        if(sharkState == SHARK_FIN){
+            swimcount+= deltaTime;
+        }
+
+	}
+
+	public void sharkJump(){
+        if(sharkState!=SHARK_JUMPING) {
+            sharkState = SHARK_JUMPING;
+            swimcount = 0;
+            stateTime = 0;
+            jumpcount =0;
+        }else
+            return;
     }
+
     public int getSharkState(){
         if (sharkState==SHARK_JUMPING)
             jumpcount++;

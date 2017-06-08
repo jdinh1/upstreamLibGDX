@@ -21,6 +21,7 @@ public class Frog extends DynamicGameObject {
 	int hasRocket;
     int isRocket;
     int isInvincible;
+    float invincibleTime;
 	float stateTime;
 
 	public Frog (float x, float y) {
@@ -62,6 +63,10 @@ public class Frog extends DynamicGameObject {
 		if (position.x > World.WORLD_WIDTH) position.x = 0;
 
 		stateTime += deltaTime;
+        invincibleTime+=deltaTime;
+        if(isInvincible==1 && invincibleTime>10){
+            isInvincible=0;
+        }
 	}
 
 	public void hitDie() {
@@ -71,6 +76,7 @@ public class Frog extends DynamicGameObject {
 	}
 	public void powerUp(){
         isInvincible=1;
+        invincibleTime=0;
         stateTime = 0;
     }
     public void hitPelicanBelow() {
