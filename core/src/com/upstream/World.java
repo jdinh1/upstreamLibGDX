@@ -31,7 +31,8 @@ public class World {
 	public static final int WORLD_STATE_RUNNING = 0;
 	public static final int WORLD_STATE_NEXT_LEVEL = 1;
 	public static final int WORLD_STATE_GAME_OVER = 2;
-    public static final int WORLD_END_LEVEL = 2;
+    public static final int WORLD_END_LEVEL = 3;
+    public static final int WORLD_STATE_LEVEL1_FINISHED = 4;
 	public static final Vector2 gravity = new Vector2(0, -12);
 
 	public Frog frog;
@@ -44,9 +45,11 @@ public class World {
 	public List<Fly> flys;
     public List<Pelican> pelicans;
     public List<Powerup> powerups;
+    public List<RocketPickUp> rockets;
 	public GoldenTurtle goldenturtle;
 	public final WorldListener listener;
     public RocketPack rocketpack;
+
 	public final Random rand;
 
 	public float heightSoFar;
@@ -112,6 +115,7 @@ public class World {
         this.flys = levelholder.flys;
         this.pelicans = levelholder.pelicans;
         this.powerups = levelholder.powerups;
+        this.rockets = levelholder.rockets;
         this.goldenturtle = levelholder.goldenturtle;
     }
 
@@ -143,6 +147,7 @@ public class World {
 		updateFlys(deltaTime);
         updateLogs(deltaTime);
         updatePowerUps(deltaTime);
+        updateRocketPickUp(deltaTime);
 		if (frog.state != Frog.FROG_STATE_HIT) checkCollisions();
 		checkLevelOver();
 		checkGameOver();
@@ -179,6 +184,13 @@ public class World {
         for (int i = 0; i < len; i++) {
             Powerup powerup = powerups.get(i);
             powerup.update(deltaTime);
+        }
+    }
+    private void updateRocketPickUp (float deltaTime) {
+        int len = rockets.size();
+        for (int i = 0; i < len; i++) {
+            RocketPickUp rocket = rockets.get(i);
+            rocket.update(deltaTime);
         }
     }
     private void updateSharks (float deltaTime) {
@@ -321,6 +333,15 @@ public class World {
                 frog.powerUp();
             }
         }
+        len = rockets.size();
+        for (int i = 0; i < len; i++) {
+            RocketPickUp rocket = rockets.get(i);
+            if (frog.bounds.overlaps(rocket.bounds)) {
+                rockets.remove(rocket);
+                len = rockets.size();
+                frog.hasRocket++;
+            }
+        }
          len = treeLogs.size();
         for (int i = 0; i < len; i++) {
             TreeLog treeLog = treeLogs.get(i);
@@ -355,14 +376,16 @@ public class World {
 	private void checkGoldenTurtleCollisions () {
         if (goldenturtle.bounds.overlaps(frog.bounds)) {
             level++;
-            state = WORLD_STATE_NEXT_LEVEL;
+            if(level==1)
+            state = WORLD_STATE_LEVEL1_FINISHED;
         }
     }
 
     private void checkIfFrogPassedGoldenTurtle () {
         if ( frog.position.y - 20 > goldenturtle.position.y) {
             level++;
-            state = WORLD_STATE_NEXT_LEVEL;
+            if(level==1)
+                state = WORLD_STATE_LEVEL1_FINISHED;
         }
     }
 

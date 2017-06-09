@@ -28,7 +28,7 @@ public class Frog extends DynamicGameObject {
 		super(x, y, FROG_WIDTH, FROG_HEIGHT);
 		state = FROG_STATE_FALL;
 		stateTime = 0;
-        hasRocket=1;
+        hasRocket=0;
         isRocket=0;
         isInvincible=0;
 	}

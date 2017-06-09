@@ -52,6 +52,7 @@ public class Assets {
     public static Animation sharkFin;
     public static Animation pelican;
     public static Animation powerUp;
+    public static Animation rocketPickUp;
 
 	public static BitmapFont font;
 
@@ -94,6 +95,7 @@ public class Assets {
 		medium = new TextureRegion(items, 365, 375, 120, 40);
         rocketpack = new TextureRegion(items2, 205,150,50,65);
 
+
 		flyAnim = new Animation(0.2f, new TextureRegion(items, 128, 32, 32, 32), new TextureRegion(items, 160, 32, 32, 32),
 			new TextureRegion(items, 192, 32, 32, 32), new TextureRegion(items, 160, 32, 32, 32));
 
@@ -119,11 +121,12 @@ public class Assets {
         shark = new Animation(.2f, new TextureRegion(items2, 144, 290, 66, 62),new TextureRegion(items2, 211, 284,85, 73),
                 new TextureRegion(items2, 298, 284, 80, 72),new TextureRegion(items2, 380, 284, 70, 76)	);
         sharkFin = new Animation(0.2f, new TextureRegion(items2, 10, 295, 65, 50), new TextureRegion(items2, 70, 295, 65, 50));
-        pelican = new Animation(1/5f, new TextureRegion(items2, 19, 350, 89, 71),new TextureRegion(items2, 119, 349, 91, 74),
-                new TextureRegion(items2, 216, 353, 100, 70),new TextureRegion(items2, 305, 353, 74, 74)	);
+        pelican = new Animation(1/5f, new TextureRegion(items2, 16, 356, 88, 54),new TextureRegion(items2, 119, 358, 81, 52),
+                new TextureRegion(items2, 211, 356, 84, 54),new TextureRegion(items2, 300, 358, 77, 54)	);
         powerUp = new Animation(1/5f, new TextureRegion(items2, 321, 239, 58, 40),new TextureRegion(items2, 382, 234, 55, 49),
                 new TextureRegion(items2, 441, 233, 61, 47) );
-
+        rocketPickUp = new Animation(1/5f, new TextureRegion(items2, 386, 360, 30, 49),new TextureRegion(items2, 420, 360, 35, 52),
+                new TextureRegion(items2, 456, 353, 40, 60) );
 
 		font = new BitmapFont(Gdx.files.internal("data/font.fnt"), Gdx.files.internal("data/font.png"), false);
 

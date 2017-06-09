@@ -26,6 +26,7 @@ public class Level1 {
     public final List<Fly> flys;
     public final List<Pelican> pelicans;
     public final List<Powerup> powerups;
+    public final List<RocketPickUp> rockets;
 
     public RocketPack rocketpack;
     public GoldenTurtle goldenturtle;
@@ -49,6 +50,7 @@ public class Level1 {
         this.flys = new ArrayList<Fly>();
         this.pelicans = new ArrayList<Pelican>();
         this.powerups = new ArrayList<Powerup>();
+        this.rockets = new ArrayList<RocketPickUp>();
 
         rand = new Random();
         this.mode = Settings.difficulty();
@@ -102,6 +104,11 @@ public class Level1 {
                             + SpeedBoat.SPEEDBOAT_HEIGHT + rand.nextFloat() * 2);
                     boats.add(boat);
                 }
+                if (y > WORLD_HEIGHT / 5 && rand.nextFloat() > 0.9f) {
+                    RocketPickUp rocket = new RocketPickUp(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
+                            + RocketPickUp.RP_HEIGHT + rand.nextFloat() * 2);
+                    rockets.add(rocket);
+                }
             }
             if(mode==2) {
                 if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.8f) {
@@ -142,7 +149,11 @@ public class Level1 {
                         + rand.nextFloat() * 3);
                 flys.add(fly);
             }
-
+            if (rand.nextFloat() > 0.7f) {
+                Pelican pelican = new Pelican(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y + Pelican.PELICAN_HEIGHT
+                        + rand.nextFloat() * 3);
+                pelicans.add(pelican);
+            }
             y += (maxJumpHeight - 0.5f);
             y -= rand.nextFloat() * (maxJumpHeight / 3);
         }

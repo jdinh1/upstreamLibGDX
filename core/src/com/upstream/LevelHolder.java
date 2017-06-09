@@ -21,6 +21,7 @@ public class LevelHolder {
     public List<Fly> flys;
     public List<Pelican> pelicans;
     public List<Powerup> powerups;
+    public List<RocketPickUp> rockets;
     public int music;
     public GoldenTurtle goldenturtle;
 
@@ -39,6 +40,7 @@ public class LevelHolder {
 		this.flys = new ArrayList<Fly>();
         this.pelicans = new ArrayList<Pelican>();
         this.powerups = new ArrayList<Powerup>();
+        this.rockets =new ArrayList<RocketPickUp>();
     }
 
     public LevelHolder(int level) {
@@ -56,6 +58,7 @@ public class LevelHolder {
                 this.flys = level_1.flys;
                 this.pelicans = level_1.pelicans;
                 this.powerups = level_1.powerups;
+                this.rockets = level_1.rockets;
                 this.goldenturtle = level_1.goldenturtle;
                 break;
             case 2:

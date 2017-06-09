@@ -175,8 +175,9 @@ public class GameScreen extends ScreenAdapter {
 				scoreString = "SCORE: " + world.score;
 		//}
 
-		if (world.state == World.WORLD_STATE_NEXT_LEVEL) {
-			game.setScreen(new WinScreen(game));
+		if (world.state == World.WORLD_STATE_LEVEL1_FINISHED) {   //WORLD_STATE_NEXT_LEVEL) {
+			//game.setScreen(new WinScreen(game));
+			game.setScreen(new EndLevel1Screen(game) );
 		}
 		if (world.state == World.WORLD_STATE_GAME_OVER) {
 			state = GAME_OVER;
@@ -266,7 +267,7 @@ public class GameScreen extends ScreenAdapter {
 		game.batcher.draw(Assets.pause, 320 - 64, 480 - 64, 40, 40);
 		Assets.font.draw(game.batcher, scoreString, 16, 480 - 20);
 		if(world.frog.hasRocket>0){
-            game.batcher.draw(Assets.rocketpack,  260, 10, 60, 80);
+            game.batcher.draw(Assets.rocketpack,  260, 10, 40, 50);
         }
         if(world.music==1){
             game.batcher.draw(Assets.musicOn,  10, 10, 50, 50);

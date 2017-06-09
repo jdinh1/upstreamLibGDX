@@ -54,6 +54,7 @@ public class WorldRenderer {
         renderlillypads();
 		renderItems();
         renderPowerups();
+        renderRocketPickUp();
         renderAlligators();
         renderSharks();
         renderSpeedBoats();
@@ -143,6 +144,14 @@ public class WorldRenderer {
             Powerup powerup = world.powerups.get(i);
             TextureRegion keyFrame = Assets.powerUp.getKeyFrame(powerup.stateTime, Animation.ANIMATION_LOOPING);
             batch.draw(keyFrame, powerup.position.x - 0.5f, powerup.position.y - 0.5f, 1, 1);
+        }
+    }
+    private void renderRocketPickUp(){
+        int len = world.rockets.size();
+        for (int i = 0; i < len; i++) {
+            RocketPickUp rocket = world.rockets.get(i);
+            TextureRegion keyFrame = Assets.rocketPickUp.getKeyFrame(rocket.stateTime, Animation.ANIMATION_LOOPING);
+            batch.draw(keyFrame, rocket.position.x - 0.5f, rocket.position.y - 0.5f, 1, 1);
         }
     }
 	private void renderItems () {
