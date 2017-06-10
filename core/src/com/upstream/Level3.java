@@ -13,7 +13,7 @@ import java.util.Random;
 public class Level3 {
 
     public static final float WORLD_WIDTH = 10;
-    public static final float WORLD_HEIGHT = 15 * 2 ; // changed for testing from 15*20
+    public static final float WORLD_HEIGHT = 15 * 10 ; // changed for testing from 15*20
     public static final Vector2 gravity = new Vector2(0, -12);
 
     public final Frog frog;
@@ -77,6 +77,12 @@ public class Level3 {
                         + Turtle.TURTLE_HEIGHT / 2);
                 turtles.add(turtle);
             }
+
+            if (rand.nextFloat() > 0.9f && type != LillyPad.PLATFORM_TYPE_MOVING) {
+                Powerup powerup = new Powerup(lillyPad.position.x, lillyPad.position.y );
+                // + LillyPad.PLATFORM_HEIGHT / 2 + Powerup.PU_LILYPAD_HEIGHT / 2);
+                powerups.add(powerup);
+            }
             if (rand.nextFloat() > 0.7f && type != LillyPad.PLATFORM_TYPE_MOVING) {
                 TreeLog treeLog = new TreeLog(lillyPad.position.x+(rand.nextFloat()*10), lillyPad.position.y +
                         LillyPad.PLATFORM_HEIGHT / 2 + TreeLog.PLATFORM_HEIGHT / 2);
@@ -97,6 +103,11 @@ public class Level3 {
                     SpeedBoat boat = new SpeedBoat(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
                             + SpeedBoat.SPEEDBOAT_HEIGHT + rand.nextFloat() * 2);
                     boats.add(boat);
+                }
+                if (y > WORLD_HEIGHT / 5 && rand.nextFloat() > 0.9f) {
+                    RocketPickUp rocket = new RocketPickUp(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
+                            + RocketPickUp.RP_HEIGHT + rand.nextFloat() * 2);
+                    rockets.add(rocket);
                 }
             }
             if(mode==2) {
@@ -138,12 +149,17 @@ public class Level3 {
                         + rand.nextFloat() * 3);
                 flys.add(fly);
             }
-
+            if (rand.nextFloat() > 0.7f) {
+                Pelican pelican = new Pelican(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y + Pelican.PELICAN_HEIGHT
+                        + rand.nextFloat() * 3);
+                pelicans.add(pelican);
+            }
             y += (maxJumpHeight - 0.5f);
             y -= rand.nextFloat() * (maxJumpHeight / 3);
         }
         goldenturtle = new GoldenTurtle(WORLD_WIDTH / 2, y);
     }
+
 
     // Accssors just in case we need them
     public List getFlys() {return flys;}

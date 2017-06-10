@@ -13,7 +13,7 @@ import java.util.Random;
 public class Level2 {
 
     public static final float WORLD_WIDTH = 10;
-    public static final float WORLD_HEIGHT = 15 * 3 ; // changed for testing from 15*20
+    public static final float WORLD_HEIGHT = 15 * 10 ; // changed for testing from 15*20
     public static final Vector2 gravity = new Vector2(0, -12);
 
     public final Frog frog;
@@ -77,6 +77,12 @@ public class Level2 {
                         + Turtle.TURTLE_HEIGHT / 2);
                 turtles.add(turtle);
             }
+
+            if (rand.nextFloat() > 0.9f && type != LillyPad.PLATFORM_TYPE_MOVING) {
+                Powerup powerup = new Powerup(lillyPad.position.x, lillyPad.position.y );
+                // + LillyPad.PLATFORM_HEIGHT / 2 + Powerup.PU_LILYPAD_HEIGHT / 2);
+                powerups.add(powerup);
+            }
             if (rand.nextFloat() > 0.7f && type != LillyPad.PLATFORM_TYPE_MOVING) {
                 TreeLog treeLog = new TreeLog(lillyPad.position.x+(rand.nextFloat()*10), lillyPad.position.y +
                         LillyPad.PLATFORM_HEIGHT / 2 + TreeLog.PLATFORM_HEIGHT / 2);
@@ -93,11 +99,8 @@ public class Level2 {
                             + Shark.SHARK_HEIGHT + rand.nextFloat() * 2);
                     sharks.add(shark);
                 }
-                if (y > WORLD_HEIGHT / 2 && rand.nextFloat() > 0.9f) {
-                    SpeedBoat boat = new SpeedBoat(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
-                            + SpeedBoat.SPEEDBOAT_HEIGHT + rand.nextFloat() * 2);
-                    boats.add(boat);
-                }
+
+
             }
             if(mode==2) {
                 if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.8f) {
@@ -110,11 +113,7 @@ public class Level2 {
                             + Shark.SHARK_HEIGHT + rand.nextFloat() * 2);
                     sharks.add(shark);
                 }
-                if (y > WORLD_HEIGHT / 2 && rand.nextFloat() > 0.9f) {
-                    SpeedBoat boat = new SpeedBoat(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
-                            + SpeedBoat.SPEEDBOAT_HEIGHT + rand.nextFloat() * 2);
-                    boats.add(boat);
-                }
+
             }
             if(mode==3) {
                 if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.7f) {
@@ -127,11 +126,7 @@ public class Level2 {
                             + Shark.SHARK_HEIGHT + rand.nextFloat() * 2);
                     sharks.add(shark);
                 }
-                if (y > WORLD_HEIGHT / 2 && rand.nextFloat() > 0.85f) {
-                    SpeedBoat boat = new SpeedBoat(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
-                            + SpeedBoat.SPEEDBOAT_HEIGHT + rand.nextFloat() * 2);
-                    boats.add(boat);
-                }
+
             }
             if (rand.nextFloat() > 0.6f) {
                 Fly fly = new Fly(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y + Fly.Fly_HEIGHT
@@ -139,11 +134,17 @@ public class Level2 {
                 flys.add(fly);
             }
 
+            if (y > WORLD_HEIGHT / 5 && rand.nextFloat() > 0.9f) {
+                RocketPickUp rocket = new RocketPickUp(lillyPad.position.x + rand.nextFloat(), lillyPad.position.y
+                        + RocketPickUp.RP_HEIGHT + rand.nextFloat() * 2);
+                rockets.add(rocket);
+            }
             y += (maxJumpHeight - 0.5f);
             y -= rand.nextFloat() * (maxJumpHeight / 3);
         }
         goldenturtle = new GoldenTurtle(WORLD_WIDTH / 2, y);
     }
+
 
     // Accssors just in case we need them
     public List getFlys() {return flys;}
