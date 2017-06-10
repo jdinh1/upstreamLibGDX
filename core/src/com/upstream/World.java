@@ -29,10 +29,18 @@ public class World {
 	public static final float WORLD_WIDTH = 10;
 	public static final float WORLD_HEIGHT = 15 * 30 ; // changed for testing from 15*20
 	public static final int WORLD_STATE_RUNNING = 0;
-	public static final int WORLD_STATE_NEXT_LEVEL = 1;
-	public static final int WORLD_STATE_GAME_OVER = 2;
-    public static final int WORLD_END_LEVEL = 3;
-    public static final int WORLD_STATE_LEVEL1_FINISHED = 4;
+	//public static final int WORLD_STATE_NEXT_LEVEL = 1;
+	//public static final int WORLD_STATE_GAME_OVER = 2;
+    //public static final int WORLD_END_LEVEL = 4;
+    //public static final int WORLD_STATE_LEVEL1_FINISHED = 3;
+    static final int GAME_READY = 0;
+    static final int GAME_RUNNING = 1;
+    static final int GAME_PAUSED = 2;
+    static final int GAME_LEVEL_END = 4;
+    static final int GAME_OVER = 5;
+
+
+
 	public static final Vector2 gravity = new Vector2(0, -12);
 
 	public Frog frog;
@@ -57,6 +65,8 @@ public class World {
     public int mode;
 	public int state;
     public int level;
+    public int nextLevel;
+
     public int music;
     public boolean isNetworkAvailable;
 	public Scoring scoring;
@@ -79,6 +89,7 @@ public class World {
 //       this.pelicans = new ArrayList<Pelican>();
  //       this.powerups = new ArrayList<Powerup>();
         this.level = setLevel;
+        this.nextLevel = level+1;
         levelholder = new LevelHolder(this.level);
         setGameAssetsFromLevel(levelholder);
 
@@ -376,28 +387,33 @@ public class World {
 	private void checkGoldenTurtleCollisions () {
         if (goldenturtle.bounds.overlaps(frog.bounds)) {
             level++;
-            if(level==1)
-            state = WORLD_STATE_LEVEL1_FINISHED;
+            if(level==1){
+                level++;
+            }
+            //state = WORLD_STATE_LEVEL1_FINISHED;
         }
     }
 
     private void checkIfFrogPassedGoldenTurtle () {
         if ( frog.position.y - 20 > goldenturtle.position.y) {
             level++;
-            if(level==1)
-                state = WORLD_STATE_LEVEL1_FINISHED;
+            if(level==1){
+                level++;
+            }
+                //state = WORLD_STATE_LEVEL1_FINISHED;
         }
     }
 
 	private void checkLevelOver () {
-		if (level < WORLD_END_LEVEL ) {
+		if (level == nextLevel ) {
 			//score = scoring.currentScore;
-			state = WORLD_STATE_RUNNING;
+            nextLevel=level+1;
+			state = GAME_LEVEL_END;
 		}
 	}
 
 	private void checkGameOver () {
-		if (heightSoFar - 7.5f > frog.position.y || level >= WORLD_END_LEVEL ) {
+		if (heightSoFar - 7.5f > frog.position.y || level == GAME_LEVEL_END ) {
 
 			// let server knows the game is done and retrieve the final
 			// score back from server
@@ -406,14 +422,15 @@ public class World {
 				score = scoring.currentScore;
 			}
 
-			state = WORLD_STATE_GAME_OVER;
+			state = GAME_OVER;
+
 		}
 	}
     public int getstate () {
         return state;
     }
     public void setState(int newState){
-        state = newState+1;
-
+        //state = newState+1;
+        state =newState;
     }
 }

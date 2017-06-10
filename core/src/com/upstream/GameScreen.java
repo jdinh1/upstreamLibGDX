@@ -40,9 +40,10 @@ public class GameScreen extends ScreenAdapter {
     String playerName;
 	GlyphLayout glyphLayout = new GlyphLayout();
 
-	public GameScreen (UPstream game) {
+	public GameScreen (UPstream game, int level) {
 		this.game = game;
-		currentLevel = 1;
+		currentLevel = level;
+
 		state = GAME_READY;
         isScoresaved =false;
 		guiCam = new OrthographicCamera(320, 480);
@@ -175,11 +176,16 @@ public class GameScreen extends ScreenAdapter {
 				scoreString = "SCORE: " + world.score;
 		//}
 
-		if (world.state == World.WORLD_STATE_LEVEL1_FINISHED) {   //WORLD_STATE_NEXT_LEVEL) {
+		if (world.state == World.GAME_LEVEL_END) {
 			//game.setScreen(new WinScreen(game));
+            if(world.level==2)
 			game.setScreen(new EndLevel1Screen(game) );
+            if(world.level==3)
+                game.setScreen(new EndLevel2Screen(game) );
+            if(world.level==4)
+                game.setScreen(new WinScreen(game));
 		}
-		if (world.state == World.WORLD_STATE_GAME_OVER) {
+		if (world.state == World.GAME_OVER) {
 			state = GAME_OVER;
 			//scoring.gameOver(mode);
             lastScore = world.score;
@@ -220,6 +226,8 @@ public class GameScreen extends ScreenAdapter {
 			renderer = new WorldRenderer(game.batcher, world);
 			world.score = lastScore;
 			state = GAME_READY;
+            world.level = 2;
+            world.state = GAME_READY;
 		}
 	}
 

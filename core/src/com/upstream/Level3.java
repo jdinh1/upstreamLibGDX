@@ -13,7 +13,7 @@ import java.util.Random;
 public class Level3 {
 
     public static final float WORLD_WIDTH = 10;
-    public static final float WORLD_HEIGHT = 15 * 20 ; // changed for testing from 15*20
+    public static final float WORLD_HEIGHT = 15 * 2 ; // changed for testing from 15*20
     public static final Vector2 gravity = new Vector2(0, -12);
 
     public final Frog frog;
@@ -25,6 +25,8 @@ public class Level3 {
     public final List<SpeedBoat> boats;
     public final List<Fly> flys;
     public final List<Pelican> pelicans;
+    public final List<Powerup> powerups;
+    public final List<RocketPickUp> rockets;
     public RocketPack rocketpack;
     public GoldenTurtle goldenturtle;
     public final Random rand;
@@ -46,6 +48,8 @@ public class Level3 {
         this.boats = new ArrayList<SpeedBoat>();
         this.flys = new ArrayList<Fly>();
         this.pelicans = new ArrayList<Pelican>();
+        this.powerups = new ArrayList<Powerup>();
+        this.rockets = new ArrayList<RocketPickUp>();
 
         rand = new Random();
         this.mode = Settings.difficulty();

@@ -73,23 +73,25 @@ public class LevelHolder {
                 this.boats = level_2.boats;
                 this.flys = level_2.flys;
                 this.pelicans = level_2.pelicans;
-
+                this.powerups = level_2.powerups;
+                this.rockets = level_2.rockets;
                 this.goldenturtle = level_2.goldenturtle;
                 break;
             case 3:
                 level_3 = new Level3();
-                this.frog = level_2.frog;
-                this.music = level_2.music;
-                this.lillyPads = level_2.lillyPads;
-                this.treeLogs = level_2.treeLogs;
-                this.turtles = level_2.turtles;
-                this.alligators = level_2.alligators;
-                this.sharks = level_2.sharks;
-                this.boats = level_2.boats;
-                this.flys = level_2.flys;
-                this.pelicans = level_2.pelicans;
-
-                this.goldenturtle = level_2.goldenturtle;
+                this.frog = level_3.frog;
+                this.music = level_3.music;
+                this.lillyPads = level_3.lillyPads;
+                this.treeLogs = level_3.treeLogs;
+                this.turtles = level_3.turtles;
+                this.alligators = level_3.alligators;
+                this.sharks = level_3.sharks;
+                this.boats = level_3.boats;
+                this.flys = level_3.flys;
+                this.pelicans = level_3.pelicans;
+                this.powerups = level_3.powerups;
+                this.rockets = level_3.rockets;
+                this.goldenturtle = level_3.goldenturtle;
                 break;
         }
     }

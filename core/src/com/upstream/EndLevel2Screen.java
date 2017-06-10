@@ -38,7 +38,7 @@ public class EndLevel2Screen extends ScreenAdapter {
 
 			if (nextBounds.contains(touchPoint.x, touchPoint.y)) {
 				Assets.playSound(Assets.clickSound);
-				game.setScreen(new GameScreen(game));
+				game.setScreen(new GameScreen(game,3));
 			}
 		}
 	}
