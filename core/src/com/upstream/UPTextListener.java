@@ -20,7 +20,7 @@ public class UPTextListener implements Input.TextInputListener {
     public void input(String text) {
 
         core.playerName = text;
-
+        Settings.playerName = text;
     }
 
     public String returnText(){

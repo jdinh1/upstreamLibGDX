@@ -102,7 +102,7 @@ public class World {
         // Check to see if there's internet connection on world instantiation
         if (netIsAvailable()) {
             isNetworkAvailable = true;
-            this.scoring = new Scoring();
+            this.scoring = MainMenuScreen.scoring;
         } else {
             isNetworkAvailable = false;
         }

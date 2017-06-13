@@ -17,6 +17,7 @@ import java.io.IOException;
 public class MainMenuScreen extends ScreenAdapter {
 	UPstream game;
 	OrthographicCamera guiCam;
+	public static Scoring scoring;
 	Rectangle soundBounds;
 	Rectangle playBounds;
 	Rectangle highscoresBounds;
@@ -30,7 +31,7 @@ public class MainMenuScreen extends ScreenAdapter {
 		System.setProperty("org.xml.sax.driver","org.xmlpull.v1.sax2.Driver");
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		this.game = game;
-
+		scoring = new Scoring();
 		guiCam = new OrthographicCamera(320, 480);
 		guiCam.position.set(320 / 2, 480 / 2, 0);
 		soundBounds = new Rectangle(0, 0, 64, 64);

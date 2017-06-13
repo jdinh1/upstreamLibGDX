@@ -24,6 +24,7 @@ import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
 import java.util.TimerTask;
 import static com.upstream.Settings.mode;
+import static com.upstream.Settings.playerName;
 
 public class Scoring {
     final static String sessionStartUrl = "http://tuturucoding.com/upstream/scoring_test.php";
@@ -70,7 +71,7 @@ public class Scoring {
             secretHashValue = sha1Object.SHA1(sharedSecretKey);
             this.autoModeTimer.schedule(new TimerTask() {
                 @Override public void run() {
-                    sendRequest(secretHashValue,mode,passToken,gameover,isHighScore,scoringObject);
+                    sendRequest(secretHashValue,mode,passToken,gameover,scoringObject);
                 }}, 0);
 
         } catch (NoSuchAlgorithmException e) {
@@ -87,13 +88,12 @@ public class Scoring {
 
         this.autoModeTimer.schedule(new TimerTask() {
             @Override public void run() {
-                sendRequest(secretHashValue,mode,passToken,gameover,isHighScore,objectCollided);
+                sendRequest(secretHashValue,mode,passToken,gameover,objectCollided);
 
             }}, 0);
         return currentScore;
 
     }
-
 
     public void sendHighScoreToServer (int gamemode){
         // bool passToken must be true every time we update score
@@ -103,7 +103,7 @@ public class Scoring {
         scoringObject = 0;
         this.autoModeTimer.schedule(new TimerTask() {
             @Override public void run() {
-                sendRequest(secretHashValue,mode,passToken,gameover,isHighScore,scoringObject);
+                sendRequest(secretHashValue,mode,passToken,gameover,scoringObject);
             }}, 0);
     }
 
@@ -115,7 +115,7 @@ public class Scoring {
         try {
             newToken = sha1Object.SHA1(sessionToken + sharedSecretKey);
 
-            sendRequest(newToken,gamemode,passToken,gameover,isHighScore,scoringObject);
+            sendRequest(newToken,gamemode,passToken,gameover,scoringObject);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
@@ -123,7 +123,7 @@ public class Scoring {
         }
     }
 
-    public void sendRequest(String secretHash, final int gamemode, final boolean passToken, final boolean gameover, final boolean isHighScore, final int scoringObject) {
+    public void sendRequest(String secretHash, final int gamemode, final boolean passToken, final boolean gameover, final int scoringObject) {
         // Request sent here
         AsyncTask task = new AsyncTask<Void>() {
             @Override
@@ -149,9 +149,14 @@ public class Scoring {
                     if (gameover) {
                         data += "&" + URLEncoder.encode("gameover", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8");
                     }
-                    if (isHighScore) {
-                        data += "&" + URLEncoder.encode("highscore", "UTF-8") + "=" + URLEncoder.encode(currentScore+"", "UTF-8");
+//                    if (isHighScore) {
+//                        data += "&" + URLEncoder.encode("highscore", "UTF-8") + "=" + URLEncoder.encode(currentScore+"", "UTF-8");
+//                    }
+                    if (playerName != "") {
+                        data += "&" + URLEncoder.encode("playername", "UTF-8") + "=" + URLEncoder.encode(playerName, "UTF-8");
+
                     }
+
 
                     OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
                     wr.write(data);
@@ -171,6 +176,7 @@ public class Scoring {
                     String error = json.getString("err");
                     String msg = json.getString("msg");
                     currentScore = json.getInt("score");
+                    isHighScore = json.getBoolean("highscore");
                     // Set hash of token+secretkey using new token from server
                     try {
                         tokenHashValue = sha1Object.SHA1(sessionToken + sharedSecretKey);
