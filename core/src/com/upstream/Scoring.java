@@ -27,7 +27,8 @@ import static com.upstream.Settings.mode;
 import static com.upstream.Settings.playerName;
 
 public class Scoring {
-    final static String sessionStartUrl = "http://tuturucoding.com/upstream/scoring_test.php";
+    //final static String sessionStartUrl = "http://tuturucoding.com/upstream/scoring_test.php";
+    final static String sessionStartUrl = "http://chilembwe.com/upstream/scoring_test.php";
     final static String sharedSecretKey = "upstream_gxUIg8BfcXYk9b2Qikmd";       // need obfuscation before shipping
     final static int SCORING_FOR_FLY = 1;
     final static int SCORING_FOR_LOG = 2;

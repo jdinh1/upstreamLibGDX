@@ -42,7 +42,7 @@ public class Shark extends DynamicGameObject {
 
         if( sharkState == SHARK_JUMPING) {
             jumpcount += deltaTime;
-            if(jumpcount>60){
+            if(jumpcount>80){
                 jumpcount=0;
                 stateTime=0;
                 sharkState=SHARK_FIN;

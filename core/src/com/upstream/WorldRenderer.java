@@ -60,6 +60,7 @@ public class WorldRenderer {
         renderSpeedBoats();
 		renderGoldenTurtle();
         renderPelicans();
+		renderHerons();
         renderFrog();
 		batch.end();
 	}
@@ -88,6 +89,35 @@ public class WorldRenderer {
                 //shark.setSharkState(shark.SHARK_FIN);
             }
 
+        }
+    }
+
+    private void renderHerons() {
+
+        if(world.herons != null) {
+        int len = world.herons.size();
+            for (int i = 0; i < len; i++) {
+                Heron heron = world.herons.get(i);
+                if (heron.getHeronState() == heron.HERON_STANDING) {
+                    TextureRegion keyFrame = Assets.heronStanding.getKeyFrame(heron.stateTime, Animation.ANIMATION_LOOPING);
+                    if (rand.nextFloat() > .8 && heron.standingcount > 20)
+                        heron.heronStrike();
+                    float side = heron.velocity.x < 0 ? -1 : 1;
+                    if (side < 0)
+                        batch.draw(keyFrame, heron.position.x + 0.5f, heron.position.y - 0.5f, side * 1, 1);
+                    else
+                        batch.draw(keyFrame, heron.position.x - 0.5f, heron.position.y - 0.5f, side * 1, 1);
+                } else {
+                    TextureRegion keyFrame = Assets.heronStrike.getKeyFrame(heron.stateTime, Animation.ANIMATION_LOOPING);
+                    float side = heron.velocity.x < 0 ? -1 : 1;
+                    if (side < 0)
+                        batch.draw(keyFrame, heron.position.x + 0.5f, heron.position.y - 0.5f, side * 1, 1);
+                    else
+                        batch.draw(keyFrame, heron.position.x - 0.5f, heron.position.y - 0.5f, side * 1, 1);
+
+                }
+
+            }
         }
     }
 

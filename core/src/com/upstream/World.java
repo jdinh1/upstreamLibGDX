@@ -36,8 +36,8 @@ public class World {
     static final int GAME_READY = 0;
     static final int GAME_RUNNING = 1;
     static final int GAME_PAUSED = 2;
-    static final int GAME_LEVEL_END = 4;
-    static final int GAME_OVER = 5;
+    static final int GAME_LEVEL_END = 5;
+    static final int GAME_OVER = 6;
 
 
 
@@ -52,6 +52,7 @@ public class World {
     public List<SpeedBoat> boats;
 	public List<Fly> flys;
     public List<Pelican> pelicans;
+    public List<Heron> herons;
     public List<Powerup> powerups;
     public List<RocketPickUp> rockets;
 	public GoldenTurtle goldenturtle;
@@ -125,6 +126,7 @@ public class World {
         this.boats = levelholder.boats;
         this.flys = levelholder.flys;
         this.pelicans = levelholder.pelicans;
+        this.herons = levelholder.herons;
         this.powerups = levelholder.powerups;
         this.rockets = levelholder.rockets;
         this.goldenturtle = levelholder.goldenturtle;
@@ -155,6 +157,7 @@ public class World {
         updateSharks(deltaTime);
         updateSpeedBoats(deltaTime);
         updatePelicans(deltaTime);
+        updateHerons(deltaTime);
 		updateFlys(deltaTime);
         updateLogs(deltaTime);
         updatePowerUps(deltaTime);
@@ -211,6 +214,15 @@ public class World {
             shark.update(deltaTime);
         }
     }
+    private void updateHerons (float deltaTime) {
+        if(herons != null) {
+            int len = herons.size();
+            for (int i = 0; i < len; i++) {
+                Heron heron = herons.get(i);
+                heron.update(deltaTime);
+            }
+        }
+    }
     private void updateSpeedBoats (float deltaTime) {
         int len = boats.size();
         for (int i = 0; i < len; i++) {
@@ -247,6 +259,7 @@ public class World {
                 checkAlligatorCollisions();
                 checkSharkCollisions();
                 checkSpeedBoatCollisions();
+                checkHeronCollisions();
             }
             checkItemCollisions();
         }
@@ -291,6 +304,18 @@ public class World {
             if (shark.bounds.overlaps(frog.bounds) && shark.getSharkState()== Shark.SHARK_JUMPING) {
                 frog.hitDie();
                 listener.hit();
+            }
+        }
+    }
+    private void checkHeronCollisions() {
+        if(herons !=null) {
+            int len = herons.size();
+            for (int i = 0; i < len; i++) {
+                Heron heron = herons.get(i);
+                if (heron.bounds.overlaps(frog.bounds) && heron.getHeronState() == Heron.HERON_STRIKING) {
+                    frog.hitDie();
+                    listener.hit();
+                }
             }
         }
     }

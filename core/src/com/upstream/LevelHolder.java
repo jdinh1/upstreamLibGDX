@@ -10,6 +10,7 @@ public class LevelHolder {
     Level1 level_1;
     Level2 level_2;
     Level3 level_3;
+    Level4 level_4;
 
     public Frog frog;
     public List<LillyPad> lillyPads;
@@ -20,6 +21,7 @@ public class LevelHolder {
     public List<SpeedBoat> boats;
     public List<Fly> flys;
     public List<Pelican> pelicans;
+    public List<Heron> herons;
     public List<Powerup> powerups;
     public List<RocketPickUp> rockets;
     public int music;
@@ -29,6 +31,7 @@ public class LevelHolder {
         level_1 = null;
         level_2 = null;
         level_3 = null;
+        level_4 = null;
         this.frog = new Frog(5, 1);
         this.music=1;
 		this.lillyPads = new ArrayList<LillyPad>();
@@ -39,6 +42,7 @@ public class LevelHolder {
         this.boats = new ArrayList<SpeedBoat>();
 		this.flys = new ArrayList<Fly>();
         this.pelicans = new ArrayList<Pelican>();
+        this.herons = new ArrayList<Heron>();
         this.powerups = new ArrayList<Powerup>();
         this.rockets =new ArrayList<RocketPickUp>();
     }
@@ -92,6 +96,23 @@ public class LevelHolder {
                 this.powerups = level_3.powerups;
                 this.rockets = level_3.rockets;
                 this.goldenturtle = level_3.goldenturtle;
+                break;
+            case 4:
+                level_4 = new Level4();
+                this.frog = level_4.frog;
+                this.music = level_4.music;
+                this.lillyPads = level_4.lillyPads;
+                this.treeLogs = level_4.treeLogs;
+                this.turtles = level_4.turtles;
+                this.alligators = level_4.alligators;
+                this.sharks = level_4.sharks;
+                this.boats = level_4.boats;
+                this.flys = level_4.flys;
+                this.pelicans = level_4.pelicans;
+                this.herons = level_4.herons;
+                this.powerups = level_4.powerups;
+                this.rockets = level_4.rockets;
+                this.goldenturtle = level_4.goldenturtle;
                 break;
         }
     }
