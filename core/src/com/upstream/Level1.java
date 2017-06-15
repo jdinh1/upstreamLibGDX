@@ -13,7 +13,7 @@ import java.util.Random;
 public class Level1 {
 
     public static final float WORLD_WIDTH = 10;
-    public static final float WORLD_HEIGHT = 15 * 2; // changed for testing from 15*20
+    public static final float WORLD_HEIGHT = 15 * 20; // changed for testing from 15*20
     public static final Vector2 gravity = new Vector2(0, -12);
 
     public final Frog frog;

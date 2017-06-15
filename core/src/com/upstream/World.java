@@ -36,7 +36,7 @@ public class World {
     static final int GAME_READY = 0;
     static final int GAME_RUNNING = 1;
     static final int GAME_PAUSED = 2;
-    static final int GAME_LEVEL_END = 5;
+    static final int GAME_LEVEL_END = 6;
     static final int GAME_OVER = 6;
 
 

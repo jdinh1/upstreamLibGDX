@@ -12,9 +12,7 @@ public class WinScreen extends ScreenAdapter {
 	OrthographicCamera cam;
 	TextureRegion goldenturtle;
 	String[] messages = { "Turtle: You made it!\n What took so long?",
-						  "Frog: I came to \nrescue you!",
-						  "Turtle: you are\n mistaken\nI need no rescuing",
-						  "Frog: So all this \nwork is for nothing?",
+						  "Frog: There were \n a few things \n in the way",
 						  "Turtle: I have \nflys and tea!\nWould you like some?",
 						  "Frog: It'd be my \npleasure!",
 						  "And they ate flys\n and drank tea\nhappily ever \nafter\n\n\n\n\n\n\n"

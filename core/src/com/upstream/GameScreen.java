@@ -184,10 +184,13 @@ public class GameScreen extends ScreenAdapter {
             if (world.level == 3)
                 game.setScreen(new EndLevel2Screen(game));
             if (world.level == 4)
+                game.setScreen(new EndLevel3Screen(game));
+            if(world.level ==5)
                 game.setScreen(new WinScreen(game));
         }
         if (world.state == World.GAME_OVER) {
             state = GAME_OVER;
+            //game.setScreen(new WinScreen(game));
             //scoring.gameOver(mode);
             lastScore = world.score;
             if (lastScore >= Settings.highscores[4])
