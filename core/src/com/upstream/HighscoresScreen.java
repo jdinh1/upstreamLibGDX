@@ -172,8 +172,8 @@ public class HighscoresScreen extends ScreenAdapter {
         }
 
 		for (int i = 0; i < tempHighScores.size(); i++) {
-			highScores[i] = i + 1 + ". " + tempNames.get(i) + " -" + tempHighScores.get(i);
-			glyphLayout.setText(Assets.font, tempHighScores.get(i) + " ("+ tempModes.get(i) +")");
+			highScores[i] = i + 1 + ". " + tempNames.get(i) + " -" + tempHighScores.get(i) + " ("+ tempModes.get(i) +")";
+			glyphLayout.setText(Assets.font, tempHighScores.get(i) + "");
 
 			xOffset = Math.max(glyphLayout.width, xOffset);
 		}
@@ -183,7 +183,7 @@ public class HighscoresScreen extends ScreenAdapter {
         //players.parseXml(webscoresInputStream);
         //glyphLayout.setText(Assets.font, (CharSequence) players);
 
-		xOffset = 160 - xOffset / 2 + Assets.font.getSpaceWidth() / 2;
+		xOffset = 140 - xOffset / 2 + Assets.font.getSpaceWidth() / 2;
 
 	}
 
