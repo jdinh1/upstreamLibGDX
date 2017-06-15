@@ -10,8 +10,8 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.XmlReader;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.async.AsyncTask;
 
 import java.io.BufferedInputStream;
@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,30 +29,40 @@ import static com.badlogic.gdx.Gdx.input;
 
 
 public class HighscoresScreen extends ScreenAdapter {
+	final String highScoreUrl = "http://tuturucoding.com/upstream/highscores.json";
 	UPstream game;
 	OrthographicCamera guiCam;
 	Rectangle backBounds;
 	Vector3 touchPoint;
-	List<String> tempHighScores;
+	List<Integer> tempHighScores;
 	List<String> tempNames;
-	List<Integer> tempModes;
+	List<String> tempModes;
 	String [] highScores;
+	private HttpURLConnection conn;
+	private URL url_load;
 	float xOffset = 0;
 	GlyphLayout glyphLayout = new GlyphLayout();
 
 
 	public HighscoresScreen (final UPstream game) throws IOException {
-
+		try {
+			url_load = new URL(highScoreUrl);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		this.game = game;
 		guiCam = new OrthographicCamera(320, 480);
 		guiCam.position.set(320 / 2, 480 / 2, 0);
 		backBounds = new Rectangle(0, 0, 64, 64);
 		touchPoint = new Vector3();
 		highScores = new String[20];
-		tempHighScores = new ArrayList<String>();
+		tempHighScores = new ArrayList<Integer>();
 		tempNames = new ArrayList<String>();
-		tempModes = new ArrayList<Integer>();
-        String url="http://chilembwe.com/upstream/androidHS.xml";
+		tempModes = new ArrayList<String>();
+		//sendRequest();
+        String url="http://tuturucoding.com/upstream/highscores.json";
         final PlayerXMLparser players = new PlayerXMLparser();
 
         URL url_load = new URL(url);
@@ -73,35 +84,69 @@ public class HighscoresScreen extends ScreenAdapter {
 
 					// Convert inputstream object to string and pass into GDX's xml reader
 					String result = getStringFromInputStream(in);
-					XmlReader reader = new XmlReader();
-					XmlReader.Element root = reader.parse(result);
-					Array<XmlReader.Element> players = root.getChildrenByName("player");
+//					XmlReader reader = new XmlReader();
+//					XmlReader.Element root = reader.parse(result);
+//					Array<XmlReader.Element> players = root.getChildrenByName("player");
 
-					// Grabbing scores data and pushing scores data into corresponding arrays
-					for (XmlReader.Element child : players)
-					{
-						String name = child.getChildByName("name").getText();
-						String score = child.getChildByName("score").getText();
-						String mode = child.getChildByName("mode").getText();
+					Gdx.app.debug("Json info", " - "+ result);
 
+					JsonValue json = new JsonReader().parse(result);
+					JsonValue players = json.get("players").get("player");
+					JsonValue.JsonIterator playersIt = players.iterator();
+					while(playersIt.hasNext()) {
+						JsonValue data = playersIt.next();
 
-						// Game mode string -> int
-						int gameModeXML = 1;
-						if (mode == "easy") {
-							gameModeXML = 1;
-						} else if (mode == "medium") {
-							gameModeXML = 2;
-						} else if (mode == "hard") {
-							gameModeXML = 3;
+						String name = data.getString("name");
+						int score = data.getInt("score");
+						int mode = data.getInt("mode");
+
+						String tempMode = "";
+						switch(mode) {
+							case 1:
+								tempMode = "E";
+								break;
+							case 2:
+								tempMode = "M";
+								break;
+							case 3:
+								tempMode = "H";
+								break;
 						}
-
 						tempNames.add(name);
 						tempHighScores.add(score);
-						tempModes.add(gameModeXML);
+						tempModes.add(tempMode);
 
-						// debug in logcat
-						Gdx.app.debug("High Score info", " - " + score);
+						//.app.debug("Json info2", " - "+ test);
 					}
+					int score = json.getInt("score");
+					int mode = json.getInt("mode");
+
+
+					// Grabbing scores data and pushing scores data into corresponding arrays
+//					for (XmlReader.Element child : players)
+//					{
+//						String name = child.getChildByName("name").getText();
+//						String score = child.getChildByName("score").getText();
+//						String mode = child.getChildByName("mode").getText();
+//
+//
+//						// Game mode string -> int
+//						int gameModeXML = 1;
+//						if (mode == "easy") {
+//							gameModeXML = 1;
+//						} else if (mode == "medium") {
+//							gameModeXML = 2;
+//						} else if (mode == "hard") {
+//							gameModeXML = 3;
+//						}
+//
+//						tempNames.add(name);
+//						tempHighScores.add(score);
+//						tempModes.add(gameModeXML);
+//
+//						// debug in logcat
+//						Gdx.app.debug("High Score info", " - " + score);
+//					}
 
 					//players.parseXml(in);
 
@@ -128,7 +173,7 @@ public class HighscoresScreen extends ScreenAdapter {
 
 		for (int i = 0; i < tempHighScores.size(); i++) {
 			highScores[i] = i + 1 + ". " + tempNames.get(i) + " -" + tempHighScores.get(i);
-			glyphLayout.setText(Assets.font, tempHighScores.get(i));
+			glyphLayout.setText(Assets.font, tempHighScores.get(i) + " ("+ tempModes.get(i) +")");
 
 			xOffset = Math.max(glyphLayout.width, xOffset);
 		}
@@ -211,5 +256,51 @@ public class HighscoresScreen extends ScreenAdapter {
 	public void render (float delta) {
 		update();
 		draw();
+	}
+
+	public void sendRequest() {
+		// Request sent here
+		AsyncTask task = new AsyncTask<Void>() {
+			@Override
+			public Void call() throws Exception {
+				doInBackground();
+				return null;
+			}
+
+			protected void doInBackground() {
+
+				try {
+					conn = (HttpURLConnection) url_load.openConnection();
+					conn.setRequestMethod("POST");
+					conn.setDoOutput(true);
+
+					// Read JSON as string and parse it
+					InputStream in = new BufferedInputStream(conn.getInputStream());
+
+					String result = getStringFromInputStream(in);
+
+					// debug in logcat
+					Gdx.app.debug("Json info", " - "+ result);
+
+					JsonValue json = new JsonReader().parse(result);
+
+//					String error = json.getString("err");
+//					String msg = json.getString("msg");
+
+
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				} finally {
+					conn.disconnect();
+				}
+			}
+
+		};
+		try {
+			task.call();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
