@@ -1,7 +1,3 @@
-/**
- * Created by captnemo on 5/27/2017.
- */
-
 package com.upstream;
 
 import com.badlogic.gdx.Gdx;
@@ -10,65 +6,60 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Align;
 
 public class EndLevel2Screen extends ScreenAdapter {
 	UPstream game;
-
-	OrthographicCamera guiCam;
-	Rectangle nextBounds;
-	Vector3 touchPoint;
-	Texture helpImage;
-	TextureRegion helpRegion;
+	OrthographicCamera cam;
+	TextureRegion arrow;
+	Texture bg;
+	TextureRegion bgRegion;
+	SpeedBoat boat;
+	float boatPosition;
+	String[] messages = { "   ", "Starting \n Level 3"
+	};
+	int currentMessage = 0;
 
 	public EndLevel2Screen(UPstream game) {
 		this.game = game;
-		guiCam = new OrthographicCamera();
-		guiCam.setToOrtho(false, 320, 480);
-		nextBounds = new Rectangle(320 - 64, 0, 64, 64);
-		touchPoint = new Vector3();
-		helpImage = Assets.loadTexture("data/lvl2.png");
-		helpRegion = new TextureRegion(helpImage, 0, 0, 320, 480);
+		cam = new OrthographicCamera();
+		cam.setToOrtho(false, 320, 480);
+		arrow = new TextureRegion(Assets.arrow.getTexture(), 210, 122, -40, 38);
+		this.boat = new SpeedBoat(100,100);
+		bg = Assets.loadTexture("data/lvl2.png");
+		bgRegion = new TextureRegion(bg, 0, 0, 320, 480);
+        boatPosition =0;
 	}
 
-	public void update () {
-		if (Gdx.input.justTouched()) {
-			guiCam.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
-
-			if (nextBounds.contains(touchPoint.x, touchPoint.y)) {
-				Assets.playSound(Assets.clickSound);
+	@Override
+	public void render(float delta) {
+		if(Gdx.input.justTouched()) {
+			currentMessage++;
+			bg = Assets.loadTexture("data/background.png");
+			bgRegion = new TextureRegion(bg, 0, 0, 320, 480);
+			if(currentMessage == messages.length) {
+				currentMessage--;
 				game.setScreen(new GameScreen(game,3));
 			}
 		}
-	}
 
-	public void draw () {
-		GL20 gl = Gdx.gl;
-		gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		
-		guiCam.update();
-		game.batcher.setProjectionMatrix(guiCam.combined);
-		game.batcher.disableBlending();
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		cam.update();
+		game.batcher.setProjectionMatrix(cam.combined);
 		game.batcher.begin();
-		game.batcher.draw(helpRegion, 0, 0);
+		game.batcher.draw(bgRegion, 0, 0);
+		//game.batcher.draw(Assets.goldenturtle, 60, 120, 200, 200);
+		TextureRegion keyFrame = Assets.speedBoat.getKeyFrame(boat.stateTime, Animation.ANIMATION_LOOPING);
+        boatPosition= boat.position.x;
+		game.batcher.draw(keyFrame, boatPosition, 60,120,100);
+		boat.update(delta);
+        boat.position.x = boatPosition+1.5f;
+        if(boatPosition>340)boat.position.x=-20;
+
+		Assets.font.getData().setScale(1.5f);
+		Assets.font.draw(game.batcher, messages[currentMessage], 0, 420, 320, Align.center, false);
+        Assets.font.getData().setScale(0.75f);
+		//game.batcher.draw(arrow,200, 200,60,60);
 		game.batcher.end();
-
-		game.batcher.enableBlending();
-		game.batcher.begin();
-		game.batcher.draw(Assets.arrow, 320, 0, -64, 64);
-		game.batcher.end();
-	}
-
-	@Override
-	public void render (float delta) {
-		draw();
-		update();
-	}
-
-	@Override
-	public void hide () {
-		helpImage.dispose();
 	}
 }

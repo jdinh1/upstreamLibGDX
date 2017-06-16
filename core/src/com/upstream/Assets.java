@@ -123,9 +123,9 @@ public class Assets {
 		speedBoat = new Animation(1/3f, new TextureRegion(items2, 2, 220, 106, 70), new TextureRegion(items2, 109, 220, 106, 70),
 				new TextureRegion(items2, 215, 219, 106, 70));
 		log = new Animation(0.2f, new TextureRegion(items2, 260, 147, 45, 60), new TextureRegion(items2, 315, 147, 45, 60) );
-		shark = new Animation(.05f, new TextureRegion(items2, 70, 295, 65, 50),new TextureRegion(items2, 144, 290, 66, 62),
-				new TextureRegion(items2, 211, 284,85, 73), new TextureRegion(items2, 298, 284, 80, 72),
-				new TextureRegion(items2, 380, 284, 70, 76), new TextureRegion(items2, 10, 295, 65, 50)	);
+		shark = new Animation(.2f, new TextureRegion(items2, 70, 295, 65, 50),new TextureRegion(items2, 144, 290, 66, 62),
+				new TextureRegion(items2, 380, 284, 70, 76),new TextureRegion(items2, 211, 284,85, 73),
+				new TextureRegion(items2, 298, 284, 80, 72)	, new TextureRegion(items2, 10, 295, 65, 50)	);
 		sharkFin = new Animation(0.2f, new TextureRegion(items2, 10, 295, 65, 50), new TextureRegion(items2, 70, 295, 65, 50));
 		pelican = new Animation(1/5f, new TextureRegion(items2, 16, 356, 88, 54),new TextureRegion(items2, 119, 358, 81, 52),
 				new TextureRegion(items2, 211, 356, 84, 54),new TextureRegion(items2, 300, 358, 77, 54)	);

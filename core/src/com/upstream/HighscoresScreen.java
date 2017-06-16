@@ -29,7 +29,7 @@ import static com.badlogic.gdx.Gdx.input;
 
 
 public class HighscoresScreen extends ScreenAdapter {
-	final String highScoreUrl = "http://tuturucoding.com/upstream/highscores.json";
+	final String highScoreUrl = "http://chilembwe.com/upstream/highscores.json";
 	UPstream game;
 	OrthographicCamera guiCam;
 	Rectangle backBounds;
@@ -62,7 +62,7 @@ public class HighscoresScreen extends ScreenAdapter {
 		tempNames = new ArrayList<String>();
 		tempModes = new ArrayList<String>();
 		//sendRequest();
-        String url="http://tuturucoding.com/upstream/highscores.json";
+        String url="http://chilembwe.com/upstream/highscores.json";
         final PlayerXMLparser players = new PlayerXMLparser();
 
         URL url_load = new URL(url);

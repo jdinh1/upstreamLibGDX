@@ -12,6 +12,7 @@ public class EndLevel3Screen extends ScreenAdapter {
     OrthographicCamera cam;
     TextureRegion arrow;
     FrogDemo frogDemo;
+    Heron heron;
     String[] messages = { "Turtle: Well, You've \n almost reached \n the end of \n the stream?",
             "Frog: Yay, \n no more alligators?",
             "Turtle: Well, \n just a few, \n and Herons",
@@ -26,6 +27,7 @@ public class EndLevel3Screen extends ScreenAdapter {
         cam.setToOrtho(false, 320, 480);
         arrow = new TextureRegion(Assets.arrow.getTexture(), 210, 122, -40, 38);
         this.frogDemo = new FrogDemo(100,100);
+        this.heron = new Heron(200,200);
     }
 
     @Override
@@ -44,11 +46,16 @@ public class EndLevel3Screen extends ScreenAdapter {
         game.batcher.begin();
         game.batcher.draw(Assets.backgroundRegion, 0, 0);
         //game.batcher.draw(Assets.goldenturtle, 60, 120, 200, 200);
+        if(currentMessage>3){
+            TextureRegion keyFrame = Assets.heronStrike.getKeyFrame(heron.stateTime, Animation.ANIMATION_LOOPING);
+            game.batcher.draw(keyFrame, 100, 80,100,150);
+            heron.update(delta);
+        }
         TextureRegion keyFrame = Assets.frogDemo.getKeyFrame(frogDemo.stateTime, Animation.ANIMATION_LOOPING);
-        game.batcher.draw(keyFrame, 120, 200,60,60);
+        game.batcher.draw(keyFrame, 120, 220,60,60);
         frogDemo.update(delta,1);
         Assets.font.draw(game.batcher, messages[currentMessage], 0, 400, 320, Align.center, false);
-        game.batcher.draw(arrow,200, 200,60,60);
+        game.batcher.draw(arrow,200, 220,60,60);
         game.batcher.end();
     }
 }
