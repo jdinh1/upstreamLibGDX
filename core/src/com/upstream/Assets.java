@@ -61,6 +61,12 @@ public class Assets {
 	public static BitmapFont font;
 
 	public static Music music;
+    public static Music music1;
+    public static Music music2;
+    public static Music music3;
+    public static Music music4;
+    public static Music music5;
+
 	public static Sound jumpSound;
 	public static Sound highJumpSound;
 	public static Sound hitSound;
@@ -146,7 +152,12 @@ public class Assets {
 
 		font = new BitmapFont(Gdx.files.internal("data/font.fnt"), Gdx.files.internal("data/font.png"), false);
 
-		music = Gdx.audio.newMusic(Gdx.files.internal("data/pond.mp3"));
+		music = Gdx.audio.newMusic(Gdx.files.internal("data/song.mp3"));
+        music1 = Gdx.audio.newMusic(Gdx.files.internal("data/song1.mp3"));
+        music2 = Gdx.audio.newMusic(Gdx.files.internal("data/song2.mp3"));
+        music3 = Gdx.audio.newMusic(Gdx.files.internal("data/song3.mp3"));
+        music4 = Gdx.audio.newMusic(Gdx.files.internal("data/song4.mp3"));
+        music5 = Gdx.audio.newMusic(Gdx.files.internal("data/song5.mp3"));
 		music.setLooping(true);
 		music.setVolume(0.4f);
 		if (Settings.soundEnabled) music.play();

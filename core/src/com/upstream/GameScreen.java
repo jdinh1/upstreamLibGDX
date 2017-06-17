@@ -13,13 +13,15 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.upstream.World.WorldListener;
 
+import java.util.Random;
+
 public class GameScreen extends ScreenAdapter {
     static final int GAME_READY = 0;
     static final int GAME_RUNNING = 1;
     static final int GAME_PAUSED = 2;
     static final int GAME_LEVEL_END = 3;
     static final int GAME_OVER = 4;
-
+    public final Random rand;
     UPstream game;
 
     int state;
@@ -43,7 +45,7 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(UPstream game, int level) {
         this.game = game;
         currentLevel = level;
-
+        rand = new Random();
         state = GAME_READY;
         isScoresaved = false;
         guiCam = new OrthographicCamera(320, 480);
@@ -86,6 +88,7 @@ public class GameScreen extends ScreenAdapter {
         lastScore = 0;
         playerName = "";
         scoreString = "SCORE: 0";
+        playmusic();
     }
 
     public void update(float deltaTime) {
@@ -134,9 +137,19 @@ public class GameScreen extends ScreenAdapter {
                 if (world.music == 1) {
                     world.music = 0;
                     Assets.music.setVolume(0f);
+                    Assets.music1.setVolume(0f);
+                    Assets.music2.setVolume(0f);
+                    Assets.music3.setVolume(0f);
+                    Assets.music4.setVolume(0f);
+                    Assets.music5.setVolume(0f);
                 } else {
                     world.music = 1;
                     Assets.music.setVolume(.4f);
+                    Assets.music1.setVolume(.4f);
+                    Assets.music2.setVolume(.4f);
+                    Assets.music3.setVolume(.4f);
+                    Assets.music4.setVolume(.4f);
+                    Assets.music5.setVolume(.4f);
                 }
                 return;
             }
@@ -179,14 +192,24 @@ public class GameScreen extends ScreenAdapter {
 
         if (world.state == World.GAME_LEVEL_END) {
             //game.setScreen(new WinScreen(game));
-            if (world.level == 2)
+            if (world.level == 2) {
+                playmusic();
                 game.setScreen(new EndLevel1Screen(game));
-            if (world.level == 3)
+            }
+            if (world.level == 3) {
+                playmusic();
                 game.setScreen(new EndLevel2Screen(game));
-            if (world.level == 4)
+            }
+            if (world.level == 4){
+                playmusic();
                 game.setScreen(new EndLevel3Screen(game));
-            if(world.level ==5)
+            }
+
+            if(world.level ==5){
+                playmusic();
                 game.setScreen(new WinScreen(game));
+            }
+
         }
         if (world.state == World.GAME_OVER) {
             state = GAME_OVER;
@@ -219,6 +242,49 @@ public class GameScreen extends ScreenAdapter {
                 return;
             }
         }
+    }
+
+    private void playmusic() {
+        Assets.music.stop();
+        Assets.music1.stop();
+        Assets.music2.stop();
+        Assets.music3.stop();
+        Assets.music4.stop();
+        Assets.music5.stop();
+        int song = (int)(rand.nextFloat()*6)+1;
+        if (song<=1){
+            Assets.music.setLooping(true);
+            Assets.music.setVolume(0.4f);
+            if (Settings.soundEnabled) {
+                Assets.music.play();
+            }
+        }
+        if (song==2){
+            Assets.music1.setLooping(true);
+            Assets.music1.setVolume(0.4f);
+            if (Settings.soundEnabled) Assets.music1.play();
+        }
+        if (song==3){
+            Assets.music2.setLooping(true);
+            Assets.music2.setVolume(0.4f);
+            if (Settings.soundEnabled) Assets.music2.play();
+        }
+        if (song==4){
+            Assets.music3.setLooping(true);
+            Assets.music3.setVolume(0.4f);
+            if (Settings.soundEnabled) Assets.music3.play();
+        }
+        if (song==5){
+            Assets.music4.setLooping(true);
+            Assets.music4.setVolume(0.4f);
+            if (Settings.soundEnabled) Assets.music4.play();
+        }
+        if (song>5){
+            Assets.music5.setLooping(true);
+            Assets.music5.setVolume(0.4f);
+            if (Settings.soundEnabled) Assets.music5.play();
+        }
+
     }
 
     private void updateLevelEnd() {
