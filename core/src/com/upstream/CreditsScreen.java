@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Align;
 
-public class WinScreen extends ScreenAdapter {
+public class CreditsScreen extends ScreenAdapter {
 	UPstream game;
 	OrthographicCamera cam;
 	TextureRegion arrow;
@@ -19,16 +19,17 @@ public class WinScreen extends ScreenAdapter {
     LillyPad lillypad;
     float boatPosition;
     float pelicanPosition;
+	float textPosition;
 
-	String[] messages={ "Turtle: Congratulations, \n you made it \n UpStream!",
-			"Frog: Whew, \n it wasn't easy, \n those herons \n are scary",
-			"Turtle: Be sure \n and check the \n high scores",
-			"Frog: Thanks",
-			"and the frog \nlooked for \n another stream \n to explore...\n\n\n\n\n\n\n"
+	String[] messages={ "Upstream For Android\n By\nJonathan Dinh\nJohn Hargreaves",
+			"Created using \n Android Studio \n and \n LibGDX",
+			"Original Upstream Game: \n Quy Nguyen\nJonathan Dinh\nJohn Hargreaves\n Kevin Jenkin",
+			"Music created \n by \n http://computoser.com/",
+			" \n\n\n"
 	};
 	int currentMessage = 0;
 
-	public WinScreen(UPstream game) {
+	public CreditsScreen(UPstream game) {
 		this.game = game;
 		cam = new OrthographicCamera();
 		cam.setToOrtho(false, 320, 480);
@@ -41,6 +42,8 @@ public class WinScreen extends ScreenAdapter {
         this.lillypad = new LillyPad( 1,100,100);
         this.boatPosition =0;
         this.pelicanPosition =0;
+        this.textPosition =0;
+
 	}
 
 	@Override
@@ -49,7 +52,7 @@ public class WinScreen extends ScreenAdapter {
 			currentMessage++;
 			if(currentMessage == messages.length) {
 				currentMessage--;
-				game.setScreen(new CreditsScreen(game));
+				game.setScreen(new MainMenuScreen(game));
 			}
 		}
 
@@ -91,7 +94,17 @@ public class WinScreen extends ScreenAdapter {
 		keyFrame = Assets.frogDemo.getKeyFrame(frogDemo.stateTime, Animation.ANIMATION_LOOPING);
 		game.batcher.draw(keyFrame, 120, 220,60,60);
 		frogDemo.update(delta,1);
-		Assets.font.draw(game.batcher, messages[currentMessage], 0, 400, 320, Align.center, false);
+        textPosition = textPosition+(delta*50);
+        if(textPosition>400) {
+            currentMessage++;
+            textPosition = 0;
+        }
+        if(currentMessage == messages.length) {
+            currentMessage--;
+        }
+        Assets.font.getData().setScale(0.5f);
+		Assets.font.draw(game.batcher, messages[currentMessage], 0, textPosition, 320, Align.center, false);
+        Assets.font.getData().setScale(1.0f);
 		game.batcher.draw(arrow,200, 220,60,60);
 		game.batcher.end();
 	}

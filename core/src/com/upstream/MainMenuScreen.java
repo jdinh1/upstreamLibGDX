@@ -18,6 +18,7 @@ public class MainMenuScreen extends ScreenAdapter {
 	UPstream game;
 	OrthographicCamera guiCam;
 	public static Scoring scoring;
+	Rectangle creditsBounds;
 	Rectangle soundBounds;
 	Rectangle playBounds;
 	Rectangle highscoresBounds;
@@ -34,6 +35,7 @@ public class MainMenuScreen extends ScreenAdapter {
 		scoring = new Scoring();
 		guiCam = new OrthographicCamera(320, 480);
 		guiCam.position.set(320 / 2, 480 / 2, 0);
+        creditsBounds = new Rectangle(5,300,300,300);
 		soundBounds = new Rectangle(0, 0, 64, 64);
 		playBounds = new Rectangle(160 - 150, 200 + 18, 300, 36);
 		highscoresBounds = new Rectangle(160 - 150, 200 - 18, 300, 36);
@@ -48,6 +50,11 @@ public class MainMenuScreen extends ScreenAdapter {
 		if (Gdx.input.justTouched()) {
 			guiCam.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 
+            if (creditsBounds.contains(touchPoint.x, touchPoint.y)) {
+                Assets.playSound(Assets.clickSound);
+                game.setScreen(new CreditsScreen(game));
+                return;
+            }
 			if (playBounds.contains(touchPoint.x, touchPoint.y)) {
 				Assets.playSound(Assets.clickSound);
                 game.playerName="";
