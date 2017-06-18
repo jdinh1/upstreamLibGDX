@@ -15,6 +15,8 @@ import com.upstream.World.WorldListener;
 
 import java.util.Random;
 
+import sun.rmi.runtime.Log;
+
 public class GameScreen extends ScreenAdapter {
     static final int GAME_READY = 0;
     static final int GAME_RUNNING = 1;
@@ -173,13 +175,31 @@ public class GameScreen extends ScreenAdapter {
 
         ApplicationType appType = Gdx.app.getType();
 
+        // =============================================================================
+        float accel = 0;
+        if (Gdx.input.isTouched()){
+            //guiCam.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+            touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            //float position = Gdx.input.getX();
+            Gdx.app.log("touchpoint", (touchPoint.x/50)+", "+world.frog.position.x);
+            if(touchPoint.x/50 < world.frog.position.x){
+                accel = 5f;
+            }
+            else {
+                accel = -5f;
+            }
+
+            world.update(deltaTime, accel);
+        }
+
         // should work also with Gdx.input.isPeripheralAvailable(Peripheral.Accelerometer)
         if (appType == ApplicationType.Android || appType == ApplicationType.iOS) {
             world.update(deltaTime, Gdx.input.getAccelerometerX());
         } else {
-            float accel = 0;
+
             if (Gdx.input.isKeyPressed(Keys.DPAD_LEFT)) accel = 5f;
             if (Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) accel = -5f;
+
             world.update(deltaTime, accel);
         }
         //if (world.score != lastScore) {

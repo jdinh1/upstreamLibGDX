@@ -94,6 +94,7 @@ public class CreditsScreen extends ScreenAdapter {
 		keyFrame = Assets.frogDemo.getKeyFrame(frogDemo.stateTime, Animation.ANIMATION_LOOPING);
 		game.batcher.draw(keyFrame, 120, 220,60,60);
 		frogDemo.update(delta,1);
+        game.batcher.draw(arrow,200, 220,60,60);
         textPosition = textPosition+(delta*50);
         if(textPosition>400) {
             currentMessage++;
@@ -105,7 +106,7 @@ public class CreditsScreen extends ScreenAdapter {
         Assets.font.getData().setScale(0.5f);
 		Assets.font.draw(game.batcher, messages[currentMessage], 0, textPosition, 320, Align.center, false);
         Assets.font.getData().setScale(1.0f);
-		game.batcher.draw(arrow,200, 220,60,60);
+
 		game.batcher.end();
 	}
 }
