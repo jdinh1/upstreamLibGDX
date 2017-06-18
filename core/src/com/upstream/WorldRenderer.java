@@ -33,7 +33,7 @@ public class WorldRenderer {
 	public void render () {
 
 		if (world.frog.position.y > cam.position.y) cam.position.y = world.frog.position.y;
-		else if(world.frog.position.y > 2 && world.getstate()!=3) cam.position.y = cam.position.y + (float)0.015;
+		else if(world.frog.position.y > 2 && world.getstate()!=world.GAME_PAUSED) cam.position.y = cam.position.y + (float)0.015;
 		cam.update();
 		batch.setProjectionMatrix(cam.combined);
 		renderBackground();
