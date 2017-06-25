@@ -96,6 +96,7 @@ public class Frog extends DynamicGameObject {
     }
 	public void hitLillypad() {
 		velocity.y = FROG_JUMP_VELOCITY;
+		position.y = position.y +1.0f;
 		state = FROG_STATE_JUMP;
 		stateTime = 0;
 	}
